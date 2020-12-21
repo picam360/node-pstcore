@@ -1,5 +1,5 @@
 {
-  "name": "pstcore-js",
+  "name": "pstcore",
   "version": "1.0.0",
   "description": "PstCore NodeJS binding.",
   "main": "index.js",
@@ -12,6 +12,6 @@
     "install": "run-script-os",
     "install:win32": "cmake-js compile -G \"Visual Studio 15 2017 Win64\"",
     "install:darwin:linux": "cmake-js compile -G \"Unix Makefiles\"",
-    "test": "node test.js"
+    "view-test": "node view-test.js"
   }
 }

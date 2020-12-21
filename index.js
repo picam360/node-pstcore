@@ -1,3 +1,3 @@
-var pstcore = require('bindings')('pstcore-js');
+var pstcore = require('bindings')('node-pstcore');
 
 module.exports = pstcore;

@@ -16,8 +16,7 @@ pstcore.pstcore_add_set_param_done_callback(
 	console.log("set_param " + msg);
 });
 
-var url = "file://Users/takuma/Downloads/ancient_8k_1024p_4mps.pvf";
-//var url = "http://vpm.picam360.com/heli-ki60_2160p.pvf";
+var url = "http://vpm.picam360.com/heli-ki60_2160p.pvf";
 var pst = pstcore.pstcore_build_pvf_streamer(url);
 //pstcore.pstcore_set_param(pst, "renderer", "win_titlebar", "0");
 pstcore.pstcore_start_pstreamer(pst);
