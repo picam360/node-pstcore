@@ -1,9 +1,9 @@
 #include <assert.h>
-#include <node_api.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <vector>
+#include <node_api.h>
 #include "pstcore.h"
 
 #define NAPI_CALL(env, call)                                                    \
