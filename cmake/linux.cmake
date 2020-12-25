@@ -19,7 +19,7 @@ target_link_directories(${PROJECT_NAME} PRIVATE
 )
 
 target_link_libraries(${PROJECT_NAME}
-	${CMAKE_CURRENT_SOURCE_DIR}/../../build/linux/pstcore/lib/picam360/${TARGET_ARCH}/libpstcore.a
+	${CMAKE_CURRENT_SOURCE_DIR}/lib/linux/pstcore/lib/picam360/${TARGET_ARCH}/libpstcore.a
 	${GLFW_STATIC_LIBRARIES}
 	${GLEW_STATIC_LIBRARIES}
 	${LIBJPEG_STATIC_LIBRARIES}
@@ -31,5 +31,5 @@ target_link_libraries(${PROJECT_NAME}
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE
-	${CMAKE_CURRENT_SOURCE_DIR}/../../include
+	${CMAKE_CURRENT_SOURCE_DIR}/lib/linux/pstcore/include/picam360/pstcore
 )
