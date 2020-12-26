@@ -1,5 +1,6 @@
 
-set(TARGET_ARCH "aarch64")
+set(TARGET_ARCH ${CMAKE_HOST_SYSTEM_PROCESSOR})
+#set(TARGET_ARCH "aarch64")
 
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(GLFW glfw3 REQUIRED)
