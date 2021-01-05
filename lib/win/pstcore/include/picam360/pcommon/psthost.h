@@ -25,7 +25,7 @@ typedef struct _PSTHOST_T PSTHOST_T;
 typedef void (*PSTHOST_SET_PARAM_DONE_CALLBACK)(const char *pst_name,
 		const char *param, const char *value, void *arg);
 struct _PSTHOST_T {
-	PSTREAMER_T* (*build_pstreamer)(PSTHOST_T *obj, uuid_t uuid,
+	PSTREAMER_T* (*build_pstreamer)(PSTHOST_T *obj, uint8_t *uuid,
 			const char *_buff);
 	PSTREAMER_T* (*get_streamer)(PSTHOST_T *obj, PSTREAMER_T *pst, int idx);
 	bool (*destroy_pstreamer)(PSTHOST_T *obj, PSTREAMER_T *pst);

@@ -1,7 +1,5 @@
 #pragma once
 
-#include <uuid/uuid.h>
-
 #ifdef __cplusplus
 
 extern "C" {
@@ -11,7 +9,7 @@ extern "C" {
 typedef struct _PSTREAMER_T PSTREAMER_T;
 typedef void (*FILL_BUFFER_DONE_CALLBACK)(PSTREAMER_T *origin, void *arg);
 struct _PSTREAMER_T {
-	uuid_t uuid;
+	uint8_t uuid[16];
 	char name[64];
 	void (*release)(PSTREAMER_T *_this);
 
