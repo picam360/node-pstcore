@@ -57,7 +57,7 @@ add_library(pglcore STATIC IMPORTED)
 
 set_target_properties(pglcore PROPERTIES
   INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include"
-  INTERFACE_LINK_LIBRARIES "pthread;dl;glfw;rt;m;dl;GLEW;GLU;m;GL;m;pthread;dl;drm;Xdamage;Xfixes;X11-xcb;xcb-glx;xcb-dri2;Xxf86vm;Xext;X11;pthread;xcb;Xau;Xdmcp"
+  INTERFACE_LINK_LIBRARIES "pthread;dl;GLEW;GLU;m;GL;m;pthread;dl;drm;Xdamage;Xfixes;X11-xcb;xcb-glx;xcb-dri2;Xxf86vm;Xext;X11;pthread;xcb;Xau;Xdmcp"
 )
 
 # Load information for each installed configuration.

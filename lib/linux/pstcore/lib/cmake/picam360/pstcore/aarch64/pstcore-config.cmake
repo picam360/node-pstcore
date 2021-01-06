@@ -57,7 +57,7 @@ add_library(pstcore SHARED IMPORTED)
 
 set_target_properties(pstcore PROPERTIES
   INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include"
-  INTERFACE_LINK_LIBRARIES "pcommon;pglcore;pthread;dl;/usr/lib/aarch64-linux-gnu/libde265.so"
+  INTERFACE_LINK_LIBRARIES "pcommon;pglcore;uuid;pthread;dl;/usr/lib/aarch64-linux-gnu/libde265.so;/usr/local/lib/libglfw3.a"
 )
 
 # Load information for each installed configuration.
