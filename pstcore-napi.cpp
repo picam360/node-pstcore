@@ -6,7 +6,7 @@
 #include <node_api.h>
 #include "pstcore.h"
 
-#define NAPI_CALL(env, call)                                                    \
+#define NAPI_CALL(env, call)                                               \
 do {                                                                       \
   napi_status status = call;                                               \
   if (status != napi_ok) {                                                 \
@@ -317,10 +317,10 @@ void on_fill_buffer_done_callback(PSTREAMER_T *origin, void *arg){
 	napi_threadsafe_function callback = (napi_threadsafe_function)arg;
 
 	int size = 0;
-	uint8_t *_buff = NULL;
-	origin->dequeue(origin, &_buff, &size);
+	MEMBUFF_T _buff;
+	origin->dequeue(origin, &_buff);
     //printf("on_fill_buffer_done_callback:%d %d %d\n", size, ((int*)_buff)[0], _buff[4]);
-	std::vector<uint8_t> *buff = new std::vector<uint8_t>(_buff, _buff + size);
+	std::vector<uint8_t> *buff = new std::vector<uint8_t>(_buff.data, _buff.data + _buff.size);
 
 	NAPI_CALL(env, napi_acquire_threadsafe_function(callback));
 	NAPI_CALL(env,

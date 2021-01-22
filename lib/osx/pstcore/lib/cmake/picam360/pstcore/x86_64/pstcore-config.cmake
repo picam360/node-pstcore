@@ -57,7 +57,7 @@ add_library(pstcore SHARED IMPORTED)
 
 set_target_properties(pstcore PROPERTIES
   INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include"
-  INTERFACE_LINK_LIBRARIES "pthread;dl;png16;z;curl;ldap;z;pcommon;pglcore;-framework VideoToolbox;-framework CoreFoundation;-framework CoreMedia;-framework CoreVideo;GLEW;/usr/local/Cellar/libde265/1.0.8/lib/libde265.a;glfw3;-framework OpenGL;-framework Cocoa;-framework IOKit"
+  INTERFACE_LINK_LIBRARIES "pcommon;pglcore;pthread;dl;jpeg;png16;z;curl;ldap;z;/usr/local/Cellar/glew/2.2.0_1/lib/libGLEW.a;/usr/local/lib/libglfw3.a;-framework VideoToolbox;-framework CoreFoundation;-framework CoreMedia;-framework CoreVideo;/usr/local/Cellar/libde265/1.0.8/lib/libde265.a;-framework OpenGL;-framework Cocoa;-framework IOKit"
 )
 
 # Load information for each installed configuration.
