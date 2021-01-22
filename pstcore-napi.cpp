@@ -150,48 +150,6 @@ static napi_value napi_pstcore_build_pstreamer(napi_env env,
 	return ret;
 }
 
-static napi_value napi_pstcore_build_pvf_streamer(napi_env env,
-		napi_callback_info info) {
-	size_t argc = 3;
-	napi_value argv[3];
-	NAPI_CALL(env, napi_get_cb_info(env, info, &argc, argv, NULL, NULL));
-	if (argc == 0) {
-		return NULL;
-	}
-
-	napi_valuetype argument_type;
-	NAPI_CALL(env, napi_typeof(env, argv[0], &argument_type));
-	if (argument_type != napi_string) {
-		return NULL;
-	}
-
-	char url[1024] = { };
-	char head_query[1024] = { };
-	char get_query[1024] = { };
-	size_t copied;
-
-	NAPI_CALL(env,
-			napi_get_value_string_utf8(env, argv[0], url, sizeof(url),
-					&copied));
-	if (argc >= 2) {
-		NAPI_CALL(env,
-				napi_get_value_string_utf8(env, argv[1], head_query,
-						sizeof(head_query), &copied));
-	}
-	if (argc >= 3) {
-		NAPI_CALL(env,
-				napi_get_value_string_utf8(env, argv[2], get_query,
-						sizeof(get_query), &copied));
-	}
-
-	PSTREAMER_T *pst = pstcore_build_pvf_streamer(url, head_query, get_query);
-	printf("pst1=%p\n", pst);
-
-	napi_value ret;
-	napi_create_int64(env, (uint64_t) pst, &ret);
-	return ret;
-}
-
 static napi_value napi_pstcore_start_pstreamer(napi_env env,
 		napi_callback_info info) {
 	size_t argc = 1;
@@ -500,8 +458,6 @@ static napi_value Init(napi_env env, napi_value exports) {
 	DECLARE_NAPI_METHOD("pstcore_init", napi_pstcore_init),
 	DECLARE_NAPI_METHOD("pstcore_build_pstreamer",
 			napi_pstcore_build_pstreamer),
-	DECLARE_NAPI_METHOD("pstcore_build_pvf_streamer",
-			napi_pstcore_build_pvf_streamer),
 	DECLARE_NAPI_METHOD("pstcore_start_pstreamer",
 			napi_pstcore_start_pstreamer),
 	DECLARE_NAPI_METHOD("pstcore_stop_pstreamer",

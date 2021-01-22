@@ -17,7 +17,10 @@ pstcore.pstcore_add_set_param_done_callback(
 });
 
 var url = "http://vpm.picam360.com/heli-ki60_2160p.pvf";
-var pst = pstcore.pstcore_build_pvf_streamer(url);
+
+var def = "pvf_loader ! libde265_decoder name=decoder ! pgl_renderer name=renderer format=p2s w=640 h=480 fps=30";
+pst = pstcore.pstcore_build_pstreamer(def);
+pstcore.pstcore_set_param(pst, "pvf_loader", "url", url);
 //pstcore.pstcore_set_param(pst, "renderer", "win_titlebar", "0");
 pstcore.pstcore_start_pstreamer(pst);
 
