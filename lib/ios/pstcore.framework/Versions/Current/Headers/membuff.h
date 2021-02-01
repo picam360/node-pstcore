@@ -9,6 +9,7 @@ extern "C" {
 #include <pthread.h>
 #include <stdbool.h>
 #include <uuid/uuid.h>
+#include <sys/time.h>
 #include "reference.h"
 
 typedef struct MEMBUFF_T {

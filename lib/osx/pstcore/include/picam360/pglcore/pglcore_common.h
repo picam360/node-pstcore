@@ -65,6 +65,14 @@ extern "C" {
 
 #endif
 
+typedef struct WindowParams {
+    GLuint width;
+    GLuint height;
+
+    GLuint fbo;
+    GLuint fbo_tex;
+} WindowParams;
+
 #define PGLCORE_EVENT_BEFORE_DRAW_EVENTS_CALLED 1
 #define PGLCORE_EVENT_DRAW_EVENTS_CALLED 2
 #define PGLCORE_EVENT_AFTER_DRAW_EVENTS_CALLED 3
@@ -80,6 +88,9 @@ void FUNC_DEF pglcore_fullscreen(GLFWwindow*, GLFWwindow* window);
 
 void FUNC_DEF pglcore_lock();
 void FUNC_DEF pglcore_unlock();
+
+int pglcore_init_offscreen_WindowParams(WindowParams *wpo, int width, int height);
+void pglcore_deinit_WindowParams(WindowParams *wpo);
 
 #ifdef __cplusplus
 
