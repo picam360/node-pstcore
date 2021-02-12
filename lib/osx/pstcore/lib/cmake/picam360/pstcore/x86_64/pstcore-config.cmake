@@ -57,7 +57,7 @@ add_library(pstcore SHARED IMPORTED)
 
 set_target_properties(pstcore PROPERTIES
   INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include"
-  INTERFACE_LINK_LIBRARIES "pcommon;pglcore;hevcparser;pthread;dl;jpeg;png16;z;curl;ldap;z;/usr/local/Cellar/glew/2.2.0_1/lib/libGLEW.a;/usr/local/lib/libglfw3.a;-framework VideoToolbox;-framework CoreFoundation;-framework CoreMedia;-framework CoreVideo;/usr/local/Cellar/libde265/1.0.8/lib/libde265.a;-framework OpenGL;-framework Cocoa;-framework IOKit"
+  INTERFACE_LINK_LIBRARIES "pcommon;pglcore;h264bitstream;hevcparser;pthread;dl;jpeg;png16;z;curl;ldap;z;-framework VideoToolbox;-framework CoreFoundation;-framework CoreMedia;-framework CoreVideo;opencv_calib3d;opencv_core;opencv_dnn;opencv_features2d;opencv_flann;opencv_gapi;opencv_highgui;opencv_imgcodecs;opencv_imgproc;opencv_ml;opencv_objdetect;opencv_photo;opencv_stitching;opencv_video;opencv_videoio;opencv_alphamat;opencv_aruco;opencv_bgsegm;opencv_bioinspired;opencv_ccalib;opencv_datasets;opencv_dnn_objdetect;opencv_dnn_superres;opencv_dpm;opencv_face;opencv_freetype;opencv_fuzzy;opencv_hfs;opencv_img_hash;opencv_intensity_transform;opencv_line_descriptor;opencv_mcc;opencv_optflow;opencv_phase_unwrapping;opencv_plot;opencv_quality;opencv_rapid;opencv_reg;opencv_rgbd;opencv_saliency;opencv_sfm;opencv_shape;opencv_stereo;opencv_structured_light;opencv_superres;opencv_surface_matching;opencv_text;opencv_tracking;opencv_videostab;opencv_viz;opencv_xfeatures2d;opencv_ximgproc;opencv_xobjdetect;opencv_xphoto;/usr/local/Cellar/libde265/1.0.8/lib/libde265.a;/usr/local/Cellar/glew/2.2.0_1/lib/libGLEW.a;/usr/local/lib/libglfw3.a;-framework OpenGL;-framework Cocoa;-framework IOKit"
 )
 
 # Load information for each installed configuration.

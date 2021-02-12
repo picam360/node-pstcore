@@ -23,6 +23,7 @@ void FUNC_DEF pglp2s_set_mode(GLuint mode);
 void FUNC_DEF pglp2s_set_target_fps(GLfloat fps);
 void FUNC_DEF pglp2s_set_lens_params(float *k, float *f);
 void FUNC_DEF pglp2s_render();
+void FUNC_DEF pglp2s_deinit();
 
 #ifdef __cplusplus
 

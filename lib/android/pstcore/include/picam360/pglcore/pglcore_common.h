@@ -65,6 +65,27 @@ extern "C" {
 
 #endif
 
+typedef struct WindowParams {
+    GLuint width;
+    GLuint height;
+
+    GLuint fbo;
+    GLuint fbo_tex;
+} WindowParams;
+
+typedef struct TextureParams {
+    char type[8];
+    int fov;
+    bool is_yuv;
+    bool is_lrswap;
+    bool is_stereo;
+    bool need_edge_sync;
+    GLuint tex_width[3];
+    GLuint tex_stride[3];
+    GLuint tex_height[3];
+    GLuint tex[3];
+} TextureParams;
+
 #define PGLCORE_EVENT_BEFORE_DRAW_EVENTS_CALLED 1
 #define PGLCORE_EVENT_DRAW_EVENTS_CALLED 2
 #define PGLCORE_EVENT_AFTER_DRAW_EVENTS_CALLED 3
@@ -80,6 +101,14 @@ void FUNC_DEF pglcore_fullscreen(GLFWwindow*, GLFWwindow* window);
 
 void FUNC_DEF pglcore_lock();
 void FUNC_DEF pglcore_unlock();
+
+int pglcore_init_offscreen_WindowParams(WindowParams *wpo, int width, int height);
+void pglcore_deinit_WindowParams(WindowParams *wpo);
+void pglcore_update_texture(TextureParams *tpo, GLubyte **data_ary, GLuint *width_ary,
+                            GLuint *stride_ary, GLuint *height_ary, int fov, bool is_stereo, bool is_lrswap);
+void pglcore_deinit_TextureParams(TextureParams *tpo);
+
+typedef void (*PGLCORE_RENDER)(TextureParams *tpo, GLfloat *quat);
 
 #ifdef __cplusplus
 

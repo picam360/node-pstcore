@@ -57,7 +57,7 @@ add_library(pstcore MODULE IMPORTED)
 
 set_target_properties(pstcore PROPERTIES
   INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include"
-  INTERFACE_LINK_LIBRARIES "pcommon;pglcore;/Applications/Unity/Hub/Editor/2019.4.13f1/PlaybackEngines/AndroidPlayer/NDK/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android/22/liblog.so;android;z;/Applications/Unity/Hub/Editor/2019.4.13f1/PlaybackEngines/AndroidPlayer/NDK/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android/22/libEGL.so;/Applications/Unity/Hub/Editor/2019.4.13f1/PlaybackEngines/AndroidPlayer/NDK/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android/22/libGLESv2.so;/Users/takuma/github/pstcore/lib/android/libde265/lib/arm64-v8a/liblibde265.a;/Users/takuma/github/pcommon/lib/libcurl/android/arm64-v8a/libcurl.a;mediandk"
+  INTERFACE_LINK_LIBRARIES "pcommon;pglcore;hevcparser;/Applications/Unity/Hub/Editor/2019.4.13f1/PlaybackEngines/AndroidPlayer/NDK/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android/22/liblog.so;android;z;/Applications/Unity/Hub/Editor/2019.4.13f1/PlaybackEngines/AndroidPlayer/NDK/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android/22/libEGL.so;/Applications/Unity/Hub/Editor/2019.4.13f1/PlaybackEngines/AndroidPlayer/NDK/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android/22/libGLESv2.so;/Users/takuma/github/pstcore/lib/android/libde265/lib/arm64-v8a/liblibde265.a;/Users/takuma/github/pcommon/lib/libcurl/android/arm64-v8a/libcurl.a;mediandk"
 )
 
 # Load information for each installed configuration.

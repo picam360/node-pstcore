@@ -57,7 +57,7 @@ add_library(pglcore STATIC IMPORTED)
 
 set_target_properties(pglcore PROPERTIES
   INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include"
-  INTERFACE_LINK_LIBRARIES "pthread;dl;GLEW"
+  INTERFACE_LINK_LIBRARIES "pthread;dl"
 )
 
 # Load information for each installed configuration.
