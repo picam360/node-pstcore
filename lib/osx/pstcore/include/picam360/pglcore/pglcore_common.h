@@ -109,7 +109,7 @@ void pglcore_update_TextureParams(TextureParams *tpo, GLubyte **data_ary, GLuint
                             GLuint *stride_ary, GLuint *height_ary, const char *img_type, int fov, bool is_stereo, bool is_lrswap);
 void pglcore_deinit_TextureParams(TextureParams *tpo);
 
-typedef void (*PGLCORE_RENDER)(TextureParams *tpo, GLfloat *quat);
+typedef void (*PGLCORE_RENDER)(TextureParams *tpo, GLfloat *quat, float fov);
 
 #ifdef __cplusplus
 
