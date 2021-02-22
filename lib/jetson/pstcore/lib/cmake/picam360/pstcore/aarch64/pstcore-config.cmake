@@ -57,7 +57,7 @@ add_library(pstcore SHARED IMPORTED)
 
 set_target_properties(pstcore PROPERTIES
   INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include"
-  INTERFACE_LINK_LIBRARIES "pcommon;pglcore;uuid;pthread;dl;/usr/lib/aarch64-linux-gnu/libopencv_calib3d.so;/usr/lib/aarch64-linux-gnu/libopencv_core.so;/usr/lib/aarch64-linux-gnu/libopencv_features2d.so;/usr/lib/aarch64-linux-gnu/libopencv_flann.so;/usr/lib/aarch64-linux-gnu/libopencv_imgproc.so;tbb;/usr/local/lib/liblibde265.a;/usr/local/lib/libglfw3.a"
+  INTERFACE_LINK_LIBRARIES "pcommon;uuid;pthread;dl;/usr/lib/aarch64-linux-gnu/libopencv_calib3d.so;/usr/lib/aarch64-linux-gnu/libopencv_core.so;/usr/lib/aarch64-linux-gnu/libopencv_features2d.so;/usr/lib/aarch64-linux-gnu/libopencv_flann.so;/usr/lib/aarch64-linux-gnu/libopencv_imgproc.so;tbb;/usr/local/lib/liblibde265.a;/usr/local/lib/libglfw3.a;/usr/lib/libGLEW.a;GLEW;GLU;m;GL;dl;m;pthread;xcb-dri2;Xxf86vm;Xext;Xdamage;X11-xcb;drm;xcb-glx;Xfixes;X11;pthread;xcb;Xau;Xdmcp"
 )
 
 # Load information for each installed configuration.
@@ -92,7 +92,7 @@ unset(_IMPORT_CHECK_TARGETS)
 # Make sure the targets which have been exported in some other
 # export set exist.
 unset(${CMAKE_FIND_PACKAGE_NAME}_NOT_FOUND_MESSAGE_targets)
-foreach(_target "pcommon" "pglcore" )
+foreach(_target "pcommon" )
   if(NOT TARGET "${_target}" )
     set(${CMAKE_FIND_PACKAGE_NAME}_NOT_FOUND_MESSAGE_targets "${${CMAKE_FIND_PACKAGE_NAME}_NOT_FOUND_MESSAGE_targets} ${_target}")
   endif()
