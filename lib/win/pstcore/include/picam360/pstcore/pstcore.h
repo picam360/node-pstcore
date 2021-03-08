@@ -16,7 +16,6 @@ extern "C" {
 void FUNC_DEF pstcore_init(const char *config_json);
 PSTHOST_T* FUNC_DEF pstcore_get_psthost();
 PSTREAMER_T* FUNC_DEF pstcore_build_pstreamer(const char *def);
-PSTREAMER_T* FUNC_DEF pstcore_build_pvf_streamer(const char *url, const char *head_query, const char *get_query);
 void FUNC_DEF pstcore_poll_events();
 
 void FUNC_DEF pstcore_set_view_quat(PSTREAMER_T *pst, float x, float y, float z,

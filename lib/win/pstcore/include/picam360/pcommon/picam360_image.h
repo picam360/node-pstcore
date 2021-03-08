@@ -46,7 +46,7 @@ typedef struct _PICAM360_IMAGE_T {
 	enum PICAM360_MEMORY_TYPE mem_type;
 
 	uuid_t uuid;
-	char img_type[5]; //"RGB"|"RGBA"|"I420"|"YUV"|"JPEG"|"H264"|"VP8"
+	char img_type[5]; //"RGB"|"RGBA"|"I420"|"JPEG"|"H264"|"VP8"
 	struct timeval timestamp;
 
 	unsigned int meta_size;

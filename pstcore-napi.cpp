@@ -23,9 +23,13 @@ static void on_set_param_callback(const char *pst_name, const char *param,
 		return; //recursive call
 	}
 
-	int len = strlen(pst_name) + strlen(param) + strlen(value) + 16;
+	size_t len = strlen(pst_name) + strlen(param) + strlen(value) + 16;
 	char *msg = (char*) malloc(len);
+#ifdef WIN32
+	sprintf_s(msg, len, "[\"%s\",\"%s\",\"%s\"]", pst_name, param, value);
+#else
 	sprintf(msg, "[\"%s\",\"%s\",\"%s\"]", pst_name, param, value);
+#endif
 	//printf("on_set_param_callback1 : %p=%s\n", msg, msg);
 
 	NAPI_CALL(env, napi_acquire_threadsafe_function(callback));
@@ -266,7 +270,7 @@ static napi_value napi_pstcore_enqueue(napi_env env, napi_callback_info info) {
 	}
 
     //printf("pst1=%p buff=%p size=%d c=%s\n", pst, buff, size, buff);
-    pstcore_enqueue(pst, buff, size);
+    pstcore_enqueue(pst, buff, (int)size);
 
 	return NULL;
 }
