@@ -53,8 +53,10 @@ static void js_on_set_param_callback(napi_env env, napi_value js_callback, void 
 	napi_value undefined;
 	napi_value ret;
 	NAPI_CALL(env, napi_get_undefined(env, &undefined));
-	NAPI_CALL(env,
-			napi_call_function(env, undefined, js_callback, 1, argv, &ret));
+	napi_status status = napi_call_function(env, undefined, js_callback, 1, argv, &ret);
+	if (status != napi_ok) {
+		//printf("something wrong %d : ", status);
+	}
 
 	free(msg);
 }
