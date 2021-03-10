@@ -7,6 +7,13 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
+
+#ifdef __cplusplus
+
+extern "C" {
+
+#endif
+
 int inputAvailable();
 
 int stat_mkdir(const char *filepath, mode_t mode);
@@ -19,3 +26,10 @@ int strcasecmpr(const char *str1, const char *str2);
 
 void encodeHTML(char *str);
 void decodeHTML(char *str);
+
+
+#ifdef __cplusplus
+
+}
+
+#endif
