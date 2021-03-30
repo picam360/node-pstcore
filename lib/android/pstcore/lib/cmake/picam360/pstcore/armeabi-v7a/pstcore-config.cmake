@@ -57,7 +57,7 @@ add_library(pstcore MODULE IMPORTED)
 
 set_target_properties(pstcore PROPERTIES
   INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include"
-  INTERFACE_LINK_LIBRARIES "pcommon;pglcore;hevcparser;/Applications/Unity/Hub/Editor/2019.4.13f1/PlaybackEngines/AndroidPlayer/NDK/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/arm-linux-androideabi/22/liblog.so;android;z;/Applications/Unity/Hub/Editor/2019.4.13f1/PlaybackEngines/AndroidPlayer/NDK/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/arm-linux-androideabi/22/libEGL.so;/Applications/Unity/Hub/Editor/2019.4.13f1/PlaybackEngines/AndroidPlayer/NDK/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/arm-linux-androideabi/22/libGLESv2.so;/Users/takuma/github/pstcore/lib/android/libde265/lib/armeabi-v7a/liblibde265.a;/Users/takuma/github/pcommon/lib/libcurl/android/armeabi-v7a/libcurl.a;mediandk"
+  INTERFACE_LINK_LIBRARIES "pcommon;C:/msys64/home/takum/NDK/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/arm-linux-androideabi/22/liblog.so;android;z;C:/msys64/home/takum/NDK/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/arm-linux-androideabi/22/libEGL.so;C:/msys64/home/takum/NDK/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/arm-linux-androideabi/22/libGLESv2.so;C:/msys64/home/takum/github/pstcore/lib/android/libde265/lib/armeabi-v7a/liblibde265.a;C:/msys64/home/takum/github/pstcore/lib/pcommon/lib/libcurl/android/armeabi-v7a/libcurl.a;mediandk"
 )
 
 # Load information for each installed configuration.
