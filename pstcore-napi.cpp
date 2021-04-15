@@ -284,34 +284,42 @@ void on_fill_buffer_done_callback(PSTREAMER_T *origin, void *arg){
 	MEMBUFF_T _buff;
 	origin->dequeue(origin, &_buff);
     //printf("on_fill_buffer_done_callback:%d %d %d\n", size, ((int*)_buff)[0], _buff[4]);
-	std::vector<uint8_t> *buff = new std::vector<uint8_t>(_buff.data, _buff.data + _buff.size);
+	if(_buff.data == NULL){
+		NAPI_CALL(env, napi_acquire_threadsafe_function(callback));
+		NAPI_CALL(env,
+				napi_call_threadsafe_function(callback, NULL,
+						napi_tsfn_blocking));
+	}else{
+		std::vector<uint8_t> *buff = new std::vector<uint8_t>(_buff.data, _buff.data + _buff.size);
 
-	NAPI_CALL(env, napi_acquire_threadsafe_function(callback));
-	NAPI_CALL(env,
-			napi_call_threadsafe_function(callback, (void* )buff,
-					napi_tsfn_blocking));
-
+		NAPI_CALL(env, napi_acquire_threadsafe_function(callback));
+		NAPI_CALL(env,
+				napi_call_threadsafe_function(callback, (void* )buff,
+						napi_tsfn_blocking));
+	}
 }
 
 extern "C" {
-static void js_on_fill_buffer_done_callback(napi_env env, napi_value js_callback, void *_ctx,
-		void *_vec) {
-	std::vector<uint8_t> *vec = (std::vector<uint8_t>*)_vec;
+	static void js_on_fill_buffer_done_callback(napi_env env, napi_value js_callback, void *_ctx,
+			void *_vec) {
+		napi_value buff;
+		if(_vec == NULL){
+			napi_get_null(env, &buff);
+		}else{
+			std::vector<uint8_t> *vec = (std::vector<uint8_t>*)_vec;
 
-	void *_buff = NULL;
-	napi_value buff;
-	napi_create_buffer(env, vec->size(), &_buff, &buff);
-	memcpy(_buff, vec->data(), vec->size());
-
-	napi_value argv[] = { buff };
-	napi_value undefined;
-	napi_value ret;
-	NAPI_CALL(env, napi_get_undefined(env, &undefined));
-	NAPI_CALL(env,
-			napi_call_function(env, undefined, js_callback, 1, argv, &ret));
-
-	delete(vec);
-}
+			void *_buff = NULL;
+			napi_create_buffer(env, vec->size(), &_buff, &buff);
+			memcpy(_buff, vec->data(), vec->size());
+			delete(vec);
+		}
+		napi_value argv[] = { buff };
+		napi_value undefined;
+		napi_value ret;
+		NAPI_CALL(env, napi_get_undefined(env, &undefined));
+		NAPI_CALL(env,
+				napi_call_function(env, undefined, js_callback, 1, argv, &ret));
+	}
 }
 
 static napi_value napi_pstcore_set_dequeue_callback(napi_env env, napi_callback_info info) {
