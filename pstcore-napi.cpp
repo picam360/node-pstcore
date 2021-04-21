@@ -20,27 +20,27 @@ do {                                                                       \
 
 static bool m_flg_in_set_param = false;
 static void on_set_param_callback(const char *pst_name, const char *param,
-		const char *_value, void *arg) {
+		const char *value, void *arg) {
 	napi_threadsafe_function callback = (napi_threadsafe_function)arg;
 	if (m_flg_in_set_param) {
 		return; //recursive call
 	}
 
-	string value = _value;
+	string _value = value;
 	string src = "\"";
 	string dst = "\\\"";
 	string::size_type pos = 0;
-	while ((pos = value.find(src, pos)) != string::npos) {
-		value.replace(pos, src.length(), dst);
+	while ((pos = _value.find(src, pos)) != string::npos) {
+		_value.replace(pos, src.length(), dst);
 		pos += dst.length();
 	}
 
-	size_t len = strlen(pst_name) + strlen(param) + value.size() + 16;
+	size_t len = strlen(pst_name) + strlen(param) + _value.size() + 16;
 	char *msg = (char*) malloc(len);
 #ifdef WIN32
-	sprintf_s(msg, len, "[\"%s\",\"%s\",\"%s\"]", pst_name, param, value.c_str());
+	sprintf_s(msg, len, "[\"%s\",\"%s\",\"%s\"]", pst_name, param, _value.c_str());
 #else
-	sprintf(msg, "[\"%s\",\"%s\",\"%s\"]", pst_name, param, value.c_str());
+	sprintf(msg, "[\"%s\",\"%s\",\"%s\"]", pst_name, param, _value.c_str());
 #endif
 	//printf("on_set_param_callback1 : %p=%s\n", msg, msg);
 
