@@ -3,8 +3,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <vector>
+#include <string>
 #include <node_api.h>
 #include "pstcore.h"
+
+using namespace std;
 
 #define NAPI_CALL(env, call)                                               \
 do {                                                                       \
@@ -17,18 +20,27 @@ do {                                                                       \
 
 static bool m_flg_in_set_param = false;
 static void on_set_param_callback(const char *pst_name, const char *param,
-		const char *value, void *arg) {
+		const char *_value, void *arg) {
 	napi_threadsafe_function callback = (napi_threadsafe_function)arg;
 	if (m_flg_in_set_param) {
 		return; //recursive call
 	}
 
-	size_t len = strlen(pst_name) + strlen(param) + strlen(value) + 16;
+	string value = _value;
+	string src = "\"";
+	string dst = "\\\"";
+	string::size_type pos = 0;
+	while ((pos = value.find(src, pos)) != string::npos) {
+		value.replace(pos, src.length(), dst);
+		pos += dst.length();
+	}
+
+	size_t len = strlen(pst_name) + strlen(param) + value.size() + 16;
 	char *msg = (char*) malloc(len);
 #ifdef WIN32
-	sprintf_s(msg, len, "[\"%s\",\"%s\",\"%s\"]", pst_name, param, value);
+	sprintf_s(msg, len, "[\"%s\",\"%s\",\"%s\"]", pst_name, param, value.c_str());
 #else
-	sprintf(msg, "[\"%s\",\"%s\",\"%s\"]", pst_name, param, value);
+	sprintf(msg, "[\"%s\",\"%s\",\"%s\"]", pst_name, param, value.c_str());
 #endif
 	//printf("on_set_param_callback1 : %p=%s\n", msg, msg);
 
@@ -290,7 +302,7 @@ void on_fill_buffer_done_callback(PSTREAMER_T *origin, void *arg){
 				napi_call_threadsafe_function(callback, NULL,
 						napi_tsfn_blocking));
 	}else{
-		std::vector<uint8_t> *buff = new std::vector<uint8_t>(_buff.data, _buff.data + _buff.size);
+		vector<uint8_t> *buff = new vector<uint8_t>(_buff.data, _buff.data + _buff.size);
 
 		NAPI_CALL(env, napi_acquire_threadsafe_function(callback));
 		NAPI_CALL(env,
@@ -306,7 +318,7 @@ extern "C" {
 		if(_vec == NULL){
 			napi_get_null(env, &buff);
 		}else{
-			std::vector<uint8_t> *vec = (std::vector<uint8_t>*)_vec;
+			vector<uint8_t> *vec = (vector<uint8_t>*)_vec;
 
 			void *_buff = NULL;
 			napi_create_buffer(env, vec->size(), &_buff, &buff);
