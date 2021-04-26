@@ -4,7 +4,7 @@ if("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" LESS 2.5)
    message(FATAL_ERROR "CMake >= 2.6.0 required")
 endif()
 cmake_policy(PUSH)
-cmake_policy(VERSION 2.6...3.17)
+cmake_policy(VERSION 2.6...3.18)
 #----------------------------------------------------------------
 # Generated CMake target import file.
 #----------------------------------------------------------------
@@ -57,7 +57,7 @@ add_library(pstcore SHARED IMPORTED)
 
 set_target_properties(pstcore PROPERTIES
   INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include"
-  INTERFACE_LINK_LIBRARIES "pcommon;pthread;dl;jpeg;png16;z;curl;ldap;z;-framework VideoToolbox;-framework CoreFoundation;-framework CoreMedia;-framework CoreVideo;/usr/local/Cellar/opencv/4.5.1_2/lib/libippicv.a;/usr/local/Cellar/opencv/4.5.1_2/lib/libippiw.a;/usr/local/Cellar/opencv/4.5.1_2/lib/libopencv_calib3d.a;/usr/local/Cellar/opencv/4.5.1_2/lib/libopencv_core.a;/usr/local/Cellar/opencv/4.5.1_2/lib/libopencv_features2d.a;/usr/local/Cellar/opencv/4.5.1_2/lib/libopencv_flann.a;/usr/local/Cellar/opencv/4.5.1_2/lib/libopencv_imgproc.a;-framework OpenCL;/usr/local/opt/tbb/lib/libtbb.a;/usr/local/opt/openblas/lib/libopenblas.a;/usr/local/opt/gcc/lib/gcc/10/libgfortran.a;/usr/local/opt/gcc/lib/gcc/10/libgomp.a;/usr/local/Cellar/gcc/10.2.0_3/lib/gcc/10/libquadmath.a;/usr/local/Cellar/gcc/10.2.0_3/lib/gcc/10/gcc/x86_64-apple-darwin19/10.2.0/libgcc.a;/usr/local/Cellar/libde265/1.0.8/lib/libde265.a;/usr/local/Cellar/glew/2.2.0_1/lib/libGLEW.a;/usr/local/lib/libglfw3.a;-framework OpenGL;-framework Cocoa;-framework IOKit"
+  INTERFACE_LINK_LIBRARIES "pcommon;pthread;dl;jpeg;png16;z;curl;ldap;z;-framework VideoToolbox;-framework CoreFoundation;-framework CoreMedia;-framework CoreVideo;/usr/local/Cellar/opencv/4.5.2/lib/libippicv.a;/usr/local/Cellar/opencv/4.5.2/lib/libippiw.a;/usr/local/Cellar/opencv/4.5.2/lib/libopencv_calib3d.a;/usr/local/Cellar/opencv/4.5.2/lib/libopencv_core.a;/usr/local/Cellar/opencv/4.5.2/lib/libopencv_features2d.a;/usr/local/Cellar/opencv/4.5.2/lib/libopencv_flann.a;/usr/local/Cellar/opencv/4.5.2/lib/libopencv_imgproc.a;-framework OpenCL;/usr/local/opt/tbb/lib/libtbb.a;/usr/local/opt/openblas/lib/libopenblas.a;/usr/local/opt/gcc/lib/gcc/10/libgfortran.a;/usr/local/opt/gcc/lib/gcc/10/libgomp.a;/usr/local/Cellar/gcc/10.2.0_4/lib/gcc/10/libquadmath.a;/usr/local/Cellar/gcc/10.2.0_4/lib/gcc/10/gcc/x86_64-apple-darwin19/10.2.0/libgcc.a;/usr/local/Cellar/libde265/1.0.8/lib/libde265.a;/usr/local/Cellar/glew/2.2.0_1/lib/libGLEW.a;/usr/local/lib/libglfw3.a;-framework OpenGL;-framework Cocoa;-framework IOKit"
 )
 
 # Load information for each installed configuration.
