@@ -109,9 +109,18 @@ static napi_value napi_pstcore_add_set_param_done_callback(napi_env env,
 
 	napi_valuetype argument_type;
 	NAPI_CALL(env, napi_typeof(env, argv[0], &argument_type));
+	if (argument_type != napi_number) {
+		return NULL;
+	}
+	NAPI_CALL(env, napi_typeof(env, argv[1], &argument_type));
 	if (argument_type != napi_function) {
 		return NULL;
 	}
+
+	PSTREAMER_T *pst = NULL;
+	int64_t ptr;
+	NAPI_CALL(env, napi_get_value_int64(env, argv[0], &ptr));
+	pst = (PSTREAMER_T*) ptr;
 
 	napi_value resource_name;
 	NAPI_CALL(env,
@@ -120,7 +129,7 @@ static napi_value napi_pstcore_add_set_param_done_callback(napi_env env,
 
 	napi_threadsafe_function callback = NULL;
 	NAPI_CALL(env, //
-			napi_create_threadsafe_function(env, argv[0],//func
+			napi_create_threadsafe_function(env, argv[1],//func
 			NULL,//async_resource
 			resource_name,//async_resource_name
 			0,//max_queue_size
@@ -133,7 +142,7 @@ static napi_value napi_pstcore_add_set_param_done_callback(napi_env env,
 			));
 
 	PSTHOST_T *psthost = pstcore_get_psthost();
-	psthost->add_set_param_done_callback(psthost, on_set_param_callback, callback);
+	psthost->add_set_param_done_callback(psthost, pst, on_set_param_callback, callback);
 
 	return NULL;
 }
