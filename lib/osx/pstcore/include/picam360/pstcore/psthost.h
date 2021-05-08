@@ -52,9 +52,9 @@ struct _PSTHOST_T {
 			const char *param, const char *value);
 	bool (*get_param)(PSTHOST_T *obj, PSTREAMER_T *st, const char *pst_name,
 			const char *param, char *value, int size);
-	void (*add_set_param_done_callback)(PSTHOST_T *obj,
+	void (*add_set_param_done_callback)(PSTHOST_T *obj, PSTREAMER_T *pst,
 			PSTHOST_SET_PARAM_DONE_CALLBACK callback, void *arg);
-    void (*remove_set_param_done_callback)(PSTHOST_T *obj,
+    void (*remove_set_param_done_callback)(PSTHOST_T *obj, PSTREAMER_T *pst,
             PSTHOST_SET_PARAM_DONE_CALLBACK callback, void *arg);
 };
 
