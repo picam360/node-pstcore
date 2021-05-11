@@ -25,7 +25,7 @@ add_custom_command(
 #)
 
 target_link_libraries(${PROJECT_NAME}
-	${CMAKE_CURRENT_BINARY_DIR}/Release/libpstcore.so
+	${CMAKE_CURRENT_SOURCE_DIR}/lib/${PSTCOREDIR}/pstcore/lib/picam360/${TARGET_ARCH}/libpstcore.so
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE
