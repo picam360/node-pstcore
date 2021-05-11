@@ -16,10 +16,19 @@ pstcore.pstcore_add_set_param_done_callback(
 	console.log("set_param " + msg);
 });
 
-var url = "http://vpm.picam360.com/heli-ki60_2160p.pvf";
+var url = "https://vpm.picam360.com/4khdr_1024p_stereo_2mbps.pvf";
 
 var def = "pvf_loader ! libde265_decoder name=decoder ! pgl_renderer name=renderer format=p2s w=640 h=480 fps=30";
 pst = pstcore.pstcore_build_pstreamer(def);
+
+var set_param_done_check = false;
+pstcore.pstcore_add_set_param_done_callback(pst, (msg) => {
+	if(set_param_done_check){
+		return;
+	}
+	set_param_done_check = true;
+	console.log("set_param_done ok", msg);
+});
 pstcore.pstcore_set_param(pst, "pvf_loader", "url", url);
 //pstcore.pstcore_set_param(pst, "renderer", "win_titlebar", "0");
 pstcore.pstcore_start_pstreamer(pst);

@@ -100,10 +100,10 @@ static napi_value napi_pstcore_init(napi_env env, napi_callback_info info) {
 
 static napi_value napi_pstcore_add_set_param_done_callback(napi_env env,
 		napi_callback_info info) {
-	size_t argc = 1;
-	napi_value argv[1];
+	size_t argc = 2;
+	napi_value argv[2];
 	NAPI_CALL(env, napi_get_cb_info(env, info, &argc, argv, NULL, NULL));
-	if (argc != 1) {
+	if (argc != 2) {
 		return NULL;
 	}
 
@@ -170,7 +170,7 @@ static napi_value napi_pstcore_build_pstreamer(napi_env env,
 					&copied));
 
 	PSTREAMER_T *pst = pstcore_build_pstreamer(def);
-	printf("pst1=%p\n", pst);
+	printf("pst=%p\n", pst);
 
 	napi_value ret;
 	napi_create_int64(env, (uint64_t) pst, &ret);
@@ -292,7 +292,7 @@ static napi_value napi_pstcore_enqueue(napi_env env, napi_callback_info info) {
 				&size);
 	}
 
-    //printf("pst1=%p buff=%p size=%d c=%s\n", pst, buff, size, buff);
+    //printf("pst=%p buff=%p size=%d c=%s\n", pst, buff, size, buff);
     pstcore_enqueue(pst, buff, (int)size);
 
 	return NULL;
