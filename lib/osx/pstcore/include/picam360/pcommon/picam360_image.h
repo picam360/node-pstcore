@@ -8,14 +8,13 @@ extern "C" {
 
 #include <pthread.h>
 #include <stdbool.h>
-#include <uuid/uuid.h>
 #include "reference.h"
 
 #define MAX_NUM_OF_PLANES 3
 typedef struct _PICAM360_IMAGE_T {
 	REFERENCE_H *ref;
 
-	uuid_t uuid;
+	unsigned char uuid[16];
 	char mem_type[5]; //"CUDA"
 	char img_type[5]; //"RGB"|"RGBA"|"I420"|"JPEG"|"H264"|"VP8"
 	struct timeval timestamp;

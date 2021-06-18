@@ -8,16 +8,13 @@ extern "C" {
 
 #include <pthread.h>
 #include <stdbool.h>
-#include <uuid/uuid.h>
-#include <sys/time.h>
 #include "reference.h"
 
 typedef struct MEMBUFF_T {
 	REFERENCE_H *ref;
 
-	uuid_t uuid;
+	unsigned char uuid[16];
 	char mem_type[5]; //"PROC"|"KERN"|"DMAB"|"EGL"|"CUDA"
-	struct timeval timestamp;
 
 	unsigned int size;
 	unsigned char *data;
