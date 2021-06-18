@@ -57,7 +57,7 @@ add_library(pstcore SHARED IMPORTED)
 
 set_target_properties(pstcore PROPERTIES
   INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include"
-  INTERFACE_LINK_LIBRARIES "pcommon;pglcore;uuid;pthread;dl;/usr/lib/arm-linux-gnueabihf/libopencv_calib3d.a;/usr/lib/arm-linux-gnueabihf/libopencv_core.a;/usr/lib/arm-linux-gnueabihf/libopencv_features2d.a;/usr/lib/arm-linux-gnueabihf/libopencv_flann.a;/usr/lib/arm-linux-gnueabihf/libopencv_imgproc.a;tbb;/usr/lib/arm-linux-gnueabihf/libde265.so;/usr/local/lib/libglfw3.a"
+  INTERFACE_LINK_LIBRARIES "uuid;pthread;dl;/usr/lib/arm-linux-gnueabihf/libopencv_calib3d.a;/usr/lib/arm-linux-gnueabihf/libopencv_core.a;/usr/lib/arm-linux-gnueabihf/libopencv_features2d.a;/usr/lib/arm-linux-gnueabihf/libopencv_flann.a;/usr/lib/arm-linux-gnueabihf/libopencv_imgproc.a;tbb;/usr/local/lib/liblibde265.a;/usr/local/lib/libglfw3.a;/usr/lib/libGLEW.a;X11;GL"
 )
 
 # Load information for each installed configuration.
@@ -89,24 +89,8 @@ but not all the files it references.
 endforeach()
 unset(_IMPORT_CHECK_TARGETS)
 
-# Make sure the targets which have been exported in some other 
-# export set exist.
-unset(${CMAKE_FIND_PACKAGE_NAME}_NOT_FOUND_MESSAGE_targets)
-foreach(_target "pcommon" "pglcore" )
-  if(NOT TARGET "${_target}" )
-    set(${CMAKE_FIND_PACKAGE_NAME}_NOT_FOUND_MESSAGE_targets "${${CMAKE_FIND_PACKAGE_NAME}_NOT_FOUND_MESSAGE_targets} ${_target}")
-  endif()
-endforeach()
-
-if(DEFINED ${CMAKE_FIND_PACKAGE_NAME}_NOT_FOUND_MESSAGE_targets)
-  if(CMAKE_FIND_PACKAGE_NAME)
-    set( ${CMAKE_FIND_PACKAGE_NAME}_FOUND FALSE)
-    set( ${CMAKE_FIND_PACKAGE_NAME}_NOT_FOUND_MESSAGE "The following imported targets are referenced, but are missing: ${${CMAKE_FIND_PACKAGE_NAME}_NOT_FOUND_MESSAGE_targets}")
-  else()
-    message(FATAL_ERROR "The following imported targets are referenced, but are missing: ${${CMAKE_FIND_PACKAGE_NAME}_NOT_FOUND_MESSAGE_targets}")
-  endif()
-endif()
-unset(${CMAKE_FIND_PACKAGE_NAME}_NOT_FOUND_MESSAGE_targets)
+# This file does not depend on other imported targets which have
+# been exported from the same project but in a separate export set.
 
 # Commands beyond this point should not need to know the version.
 set(CMAKE_IMPORT_FILE_VERSION)
