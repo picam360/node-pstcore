@@ -4,7 +4,7 @@ if("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" LESS 2.5)
    message(FATAL_ERROR "CMake >= 2.6.0 required")
 endif()
 cmake_policy(PUSH)
-cmake_policy(VERSION 2.6...3.17)
+cmake_policy(VERSION 2.6...3.18)
 #----------------------------------------------------------------
 # Generated CMake target import file.
 #----------------------------------------------------------------
@@ -57,7 +57,7 @@ add_library(pstcore MODULE IMPORTED)
 
 set_target_properties(pstcore PROPERTIES
   INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include"
-  INTERFACE_LINK_LIBRARIES "pcommon;C:/msys64/home/takum/NDK/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/22/liblog.so;android;z;C:/msys64/home/takum/NDK/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/22/libEGL.so;C:/msys64/home/takum/NDK/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/aarch64-linux-android/22/libGLESv2.so;C:/msys64/home/takum/github/pstcore/lib/android/libde265/lib/arm64-v8a/liblibde265.a;C:/msys64/home/takum/github/pstcore/lib/pcommon/lib/libcurl/android/arm64-v8a/libcurl.a;mediandk"
+  INTERFACE_LINK_LIBRARIES "pcommon;/Applications/Unity/Hub/Editor/2020.3.4f1/PlaybackEngines/AndroidPlayer/NDK/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android/22/liblog.so;android;z;/Applications/Unity/Hub/Editor/2020.3.4f1/PlaybackEngines/AndroidPlayer/NDK/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android/22/libEGL.so;/Applications/Unity/Hub/Editor/2020.3.4f1/PlaybackEngines/AndroidPlayer/NDK/toolchains/llvm/prebuilt/darwin-x86_64/sysroot/usr/lib/aarch64-linux-android/22/libGLESv2.so;/Users/hirayama.takuma/github/pstcore/lib/android/libde265/lib/arm64-v8a/liblibde265.a;/Users/hirayama.takuma/github/pstcore/lib/pcommon/lib/libcurl/android/arm64-v8a/libcurl.a;/Users/hirayama.takuma/github/pstcore/lib/android/libwebsockets/lib/arm64-v8a/libwebsockets.a;mediandk"
 )
 
 # Load information for each installed configuration.
