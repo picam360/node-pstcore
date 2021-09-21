@@ -57,7 +57,7 @@ add_library(pstcore SHARED IMPORTED)
 
 set_target_properties(pstcore PROPERTIES
   INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include"
-  INTERFACE_LINK_LIBRARIES "pcommon;uuid;pthread;dl;/usr/lib/aarch64-linux-gnu/libcrypto.so;/usr/lib/aarch64-linux-gnu/libssl.so;/usr/lib/aarch64-linux-gnu/libopencv_calib3d.so;/usr/lib/aarch64-linux-gnu/libopencv_core.so;/usr/lib/aarch64-linux-gnu/libopencv_features2d.so;/usr/lib/aarch64-linux-gnu/libopencv_flann.so;/usr/lib/aarch64-linux-gnu/libopencv_imgproc.so;tbb;/usr/local/lib/liblibde265.a;/usr/local/lib/libglfw3.a;/usr/lib/libGLEW.a;GLEW;GLU;m;GL;dl;m;pthread;xcb-dri2;Xxf86vm;Xext;Xdamage;X11-xcb;drm;xcb-glx;Xfixes;X11;pthread;xcb;Xau;Xdmcp;cuda;nvbuf_utils;-L/usr/lib/aarch64-linux-gnu/tegra/"
+  INTERFACE_LINK_LIBRARIES "pcommon;uuid;pthread;dl;/usr/lib/aarch64-linux-gnu/libcrypto.so;/usr/lib/aarch64-linux-gnu/libssl.so;/usr/lib/aarch64-linux-gnu/libopencv_calib3d.so;/usr/lib/aarch64-linux-gnu/libopencv_core.so;/usr/lib/aarch64-linux-gnu/libopencv_features2d.so;/usr/lib/aarch64-linux-gnu/libopencv_flann.so;/usr/lib/aarch64-linux-gnu/libopencv_imgproc.so;tbb;/usr/local/lib/liblibde265.a;/usr/local/lib/libglfw3.a;/usr/lib/libGLEW.a;GLEW;GLU;m;GL;dl;m;pthread;xcb-dri2;Xxf86vm;Xext;Xdamage;X11-xcb;drm;xcb-glx;Xfixes;X11;pthread;xcb;Xau;Xdmcp;cuda;nvbuf_utils;-L/usr/lib/aarch64-linux-gnu/tegra/;/home/picam360/github/pstcore/lib/tcsdk/linux/arm64/libtoupcam.so"
 )
 
 # Load information for each installed configuration.
