@@ -27,6 +27,8 @@ int strcasecmpr(const char *str1, const char *str2);
 void encodeHTML(char *str);
 void decodeHTML(char *str);
 
+void copyfile(const char *from, const char *to);
+
 
 #ifdef __cplusplus
 
