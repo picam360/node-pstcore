@@ -18,13 +18,9 @@ do {                                                                       \
   }                                                                        \
 } while (0)
 
-static bool m_flg_in_set_param = false;
 static void on_set_param_callback(const char *pst_name, const char *param,
 		const char *value, void *arg) {
 	napi_threadsafe_function callback = (napi_threadsafe_function)arg;
-	if (m_flg_in_set_param) {
-		return; //recursive call
-	}
 
 	string _value = value;
 	string src = "\"";
@@ -425,9 +421,7 @@ static napi_value napi_pstcore_set_param(napi_env env,
 				napi_get_value_string_utf8(env, argv[3], value, sizeof(value),
 						&copied));
 
-		m_flg_in_set_param = true;
 		pstcore_set_param(pst, pst_name, param, value);
-		m_flg_in_set_param = false;
 
 		return NULL;
 	}
