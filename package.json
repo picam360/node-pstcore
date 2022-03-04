@@ -1,6 +1,6 @@
 {
   "name": "node-pstcore",
-  "version": "0.1.17",
+  "version": "0.1.18",
   "description": "PstCore NodeJS binding.",
   "main": "index.js",
   "author": "Takuma Hirayama <hirayama.takuma@picam360.com>",
