@@ -21,14 +21,16 @@ add_custom_command(
         TARGET ${PROJECT_NAME} PRE_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy
                 ${CMAKE_CURRENT_SOURCE_DIR}/lib/${PSTCOREDIR}/pstcore/lib/picam360/${TARGET_ARCH}/libpstcore.so
-                ${CMAKE_CURRENT_BINARY_DIR}/Release/libpstcore.so
-        COMMAND ${CMAKE_COMMAND} -E copy
-                ${CMAKE_CURRENT_SOURCE_DIR}/lib/${PSTCOREDIR}/depends/${TARGET_ARCH}/libtoupcam.so
-                ${CMAKE_CURRENT_BINARY_DIR}/Release/libtoupcam.so
-        COMMAND ${CMAKE_COMMAND} -E copy
-                ${CMAKE_CURRENT_SOURCE_DIR}/lib/${PSTCOREDIR}/depends/${TARGET_ARCH}/libnncam.so
-                ${CMAKE_CURRENT_BINARY_DIR}/Release/libnncam.so
-)
+                ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_BUILD_TYPE}/libpstcore.so)
+                
+file(GLOB DEPENDS_MODULES ${CMAKE_CURRENT_SOURCE_DIR}/lib/${PSTCOREDIR}/depends/${TARGET_ARCH}/*)
+foreach(_FILE IN LISTS DEPENDS_MODULES)
+    add_custom_command(
+                TARGET ${PROJECT_NAME} PRE_BUILD
+                COMMAND ${CMAKE_COMMAND} -E copy
+                        ${_FILE}
+                        ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_BUILD_TYPE}/)
+endforeach()
 
 #target_link_directories(${PROJECT_NAME} PRIVATE
 #)
