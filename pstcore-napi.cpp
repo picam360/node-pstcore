@@ -4,6 +4,8 @@
 #include <string.h>
 #include <vector>
 #include <string>
+#include <thread>
+
 #include <node_api.h>
 #include "pstcore.h"
 
@@ -18,35 +20,14 @@ do {                                                                       \
   }                                                                        \
 } while (0)
 
-static void on_set_param_callback(const char *pst_name, const char *param,
-		const char *value, void *arg) {
-	napi_threadsafe_function callback = (napi_threadsafe_function)arg;
+static thread::id NODE_THREAD;
 
-	string _value = value;
-	string src = "\"";
-	string dst = "\\\"";
-	string::size_type pos = 0;
-	while ((pos = _value.find(src, pos)) != string::npos) {
-		_value.replace(pos, src.length(), dst);
-		pos += dst.length();
-	}
+typedef struct param_done_callback_context{
+	napi_env env;
+	napi_threadsafe_function callback;
+	napi_ref callback_ref;
+}param_done_callback_context;
 
-	size_t len = strlen(pst_name) + strlen(param) + _value.size() + 16;
-	char *msg = (char*) malloc(len);
-#ifdef WIN32
-	sprintf_s(msg, len, "[\"%s\",\"%s\",\"%s\"]", pst_name, param, _value.c_str());
-#else
-	sprintf(msg, "[\"%s\",\"%s\",\"%s\"]", pst_name, param, _value.c_str());
-#endif
-	//printf("on_set_param_callback1 : %p=%s\n", msg, msg);
-
-	NAPI_CALL(env, napi_acquire_threadsafe_function(callback));
-	NAPI_CALL(env,
-			napi_call_threadsafe_function(callback, (void* )msg,
-					napi_tsfn_blocking));
-
-	return;
-}
 
 extern "C" {
 static void js_on_set_param_callback(napi_env env, napi_value js_callback, void *_ctx,
@@ -70,6 +51,42 @@ static void js_on_set_param_callback(napi_env env, napi_value js_callback, void 
 }
 }
 
+static void on_set_param_callback(const char *pst_name, const char *param,
+		const char *value, void *arg) {
+	param_done_callback_context *context = (param_done_callback_context*)arg;
+
+	string _value = value;
+	string src = "\"";
+	string dst = "\\\"";
+	string::size_type pos = 0;
+	while ((pos = _value.find(src, pos)) != string::npos) {
+		_value.replace(pos, src.length(), dst);
+		pos += dst.length();
+	}
+
+	size_t len = strlen(pst_name) + strlen(param) + _value.size() + 16;
+	char *msg = (char*) malloc(len);
+#ifdef WIN32
+	sprintf_s(msg, len, "[\"%s\",\"%s\",\"%s\"]", pst_name, param, _value.c_str());
+#else
+	sprintf(msg, "[\"%s\",\"%s\",\"%s\"]", pst_name, param, _value.c_str());
+#endif
+	//printf("on_set_param_callback1 : %p=%s\n", msg, msg);
+
+	if(std::this_thread::get_id() == NODE_THREAD){
+		napi_value callback;
+		NAPI_CALL(env, napi_get_reference_value(context->env, context->callback_ref, &callback));
+		js_on_set_param_callback(context->env, callback, NULL, (void*)msg);
+	}else{
+		NAPI_CALL(env, napi_acquire_threadsafe_function(context->callback));
+		NAPI_CALL(env,
+				napi_call_threadsafe_function(context->callback, (void*)msg,
+						napi_tsfn_blocking));
+	}
+
+	return;
+}
+
 static napi_value napi_pstcore_init(napi_env env, napi_callback_info info) {
 	size_t argc = 1;
 	napi_value argv[1];
@@ -77,6 +94,8 @@ static napi_value napi_pstcore_init(napi_env env, napi_callback_info info) {
 	if (argc != 1) {
 		return NULL;
 	}
+
+	NODE_THREAD = std::this_thread::get_id();
 
 	napi_valuetype argument_type;
 	NAPI_CALL(env, napi_typeof(env, argv[0], &argument_type));
@@ -123,22 +142,26 @@ static napi_value napi_pstcore_add_set_param_done_callback(napi_env env,
 			napi_create_string_utf8(env, "pstcore", NAPI_AUTO_LENGTH,
 					&resource_name));
 
-	napi_threadsafe_function callback = NULL;
+	param_done_callback_context *context = new param_done_callback_context();
+	context->env = env;
+    NAPI_CALL(env, napi_create_reference(env, argv[1], 1, &context->callback_ref));
 	NAPI_CALL(env, //
-			napi_create_threadsafe_function(env, argv[1],//func
-			NULL,//async_resource
-			resource_name,//async_resource_name
-			0,//max_queue_size
-			2,//initial_thread_count
-			NULL,//thread_finalize_data
-			NULL,//thread_finalize_cb
-			(void*)0x0,//context
-			js_on_set_param_callback,//call_js_cb
-			&callback//result
+			napi_create_threadsafe_function(
+				env,
+				argv[1],//func
+				NULL,//async_resource
+				resource_name,//async_resource_name
+				0,//max_queue_size
+				2,//initial_thread_count
+				NULL,//thread_finalize_data
+				NULL,//thread_finalize_cb
+				(void*)0x0,//context
+				js_on_set_param_callback,//call_js_cb
+				&context->callback//result
 			));
 
 	PSTHOST_T *psthost = pstcore_get_psthost();
-	psthost->add_set_param_done_callback(psthost, pst, on_set_param_callback, callback);
+	psthost->add_set_param_done_callback(psthost, pst, on_set_param_callback, context);
 
 	return NULL;
 }
