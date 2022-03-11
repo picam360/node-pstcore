@@ -24,7 +24,8 @@ typedef void (*PVFLDR_CALLBACK)(unsigned char *data, int size, bool is_frame, in
 PVFLDR_T FUNC_DEF pvfldr_new(const char *url, const char *head_query, const char *get_query, PVFLDR_CALLBACK callback,
 		void *arg);
 void FUNC_DEF pvfldr_delete(PVFLDR_T _this);
-void FUNC_DEF pvfldr_load(PVFLDR_T _this, int pitch, int yaw, int frame_cur);
+void FUNC_DEF pvfldr_poll(PVFLDR_T _this);
+void FUNC_DEF pvfldr_load(PVFLDR_T _this, int pitch, int yaw, int frame_cur, int n_frames);
 
 float FUNC_DEF pvfldr_get_kf_latency_ave(PVFLDR_T _this);
 float FUNC_DEF pvfldr_get_kf_latency_sigma(PVFLDR_T _this);
