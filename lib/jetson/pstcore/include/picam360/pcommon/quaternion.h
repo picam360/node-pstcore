@@ -40,6 +40,7 @@ VECTOR4D_T quaternion_multiply(VECTOR4D_T a, VECTOR4D_T b); // Q = QbQa
 VECTOR4D_T quaternion_conjugate(VECTOR4D_T q);
 VECTOR4D_T quaternion_normalize(VECTOR4D_T a);
 void quaternion_get_euler(VECTOR4D_T q, float *r1, float *r2, float *r3, enum EULER_SEQUENCE seq);
+VECTOR4D_T quaternion_from_mat3x3(float mat3x3[3][3]);
 
 #ifdef __cplusplus
 
