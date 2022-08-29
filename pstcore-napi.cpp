@@ -284,15 +284,8 @@ static napi_value napi_pstcore_enqueue(napi_env env, napi_callback_info info) {
 		return NULL;
 	}
 	NAPI_CALL(env, napi_typeof(env, argv[1], &argument_type));
-	if (argument_type != napi_object) {
+	if (argument_type != napi_object && argument_type != napi_null) {
 		printf("not supported type %d\n", argument_type);
-		return NULL;
-	}
-	bool is_buffer = false;
-	bool is_arraybuffer = false;
-	NAPI_CALL(env, napi_is_buffer(env, argv[1], &is_buffer));
-	NAPI_CALL(env, napi_is_arraybuffer(env, argv[1], &is_arraybuffer));
-	if (!is_buffer && !is_arraybuffer) {
 		return NULL;
 	}
 
@@ -301,14 +294,27 @@ static napi_value napi_pstcore_enqueue(napi_env env, napi_callback_info info) {
 	NAPI_CALL(env, napi_get_value_int64(env, argv[0], &ptr));
 	pst = (PSTREAMER_T*) ptr;
 
-	unsigned char *buff;
-	size_t size;
-	if (is_buffer) {
-		napi_status status = napi_get_buffer_info(env, argv[1], (void**) &buff,
-				&size);
-	} else if (is_arraybuffer) {
-		napi_status status = napi_get_arraybuffer_info(env, argv[1], (void**) &buff,
-				&size);
+	unsigned char *buff = NULL;
+	size_t size = 0;
+
+	if(argument_type == napi_object){
+
+		bool is_buffer = false;
+		bool is_arraybuffer = false;
+		NAPI_CALL(env, napi_is_buffer(env, argv[1], &is_buffer));
+		NAPI_CALL(env, napi_is_arraybuffer(env, argv[1], &is_arraybuffer));
+		if (!is_buffer && !is_arraybuffer) {
+			return NULL;
+		}
+
+		if (is_buffer) {
+			napi_status status = napi_get_buffer_info(env, argv[1], (void**) &buff,
+					&size);
+		} else if (is_arraybuffer) {
+			napi_status status = napi_get_arraybuffer_info(env, argv[1], (void**) &buff,
+					&size);
+		}
+		
 	}
 
     //printf("pst=%p buff=%p size=%d c=%s\n", pst, buff, size, buff);
