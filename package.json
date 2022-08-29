@@ -1,6 +1,6 @@
 {
   "name": "node-pstcore",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "PstCore NodeJS binding.",
   "main": "index.js",
   "author": "Takuma Hirayama <hirayama.takuma@picam360.com>",
@@ -15,7 +15,7 @@
   },
   "scripts": {
     "install": "run-script-os",
-    "install:win32": "npx cmake-js compile -G \"Visual Studio 15 2017 Win64\"",
+    "install:win32": "npx cmake-js compile -G \\\"Visual Studio 15 2017 Win64\\\"",
     "install:darwin:linux": "npx cmake-js compile -G \"Unix Makefiles\"",
     "view-test": "node view-test.js"
   }
