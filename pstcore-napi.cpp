@@ -38,11 +38,11 @@ static void js_on_set_param_callback(napi_env env, napi_value js_callback, void 
 	napi_value nv_msg;
 	NAPI_CALL(env, napi_create_string_utf8(env, msg, -1, &nv_msg));
 
-	napi_value argv[] = { nv_msg };
+	napi_value argv_cb[] = { nv_msg };
 	napi_value undefined;
 	napi_value ret;
 	NAPI_CALL(env, napi_get_undefined(env, &undefined));
-	napi_status status = napi_call_function(env, undefined, js_callback, 1, argv, &ret);
+	napi_status status = napi_call_function(env, undefined, js_callback, 1, argv_cb, &ret);
 	if (status != napi_ok) {
 		//printf("something wrong %d : ", status);
 	}
@@ -171,13 +171,17 @@ static napi_value napi_pstcore_build_pstreamer(napi_env env,
 	size_t argc = 3;
 	napi_value argv[3];
 	NAPI_CALL(env, napi_get_cb_info(env, info, &argc, argv, NULL, NULL));
-	if (argc == 0) {
+	if (argc != 2) {
 		return NULL;
 	}
 
 	napi_valuetype argument_type;
 	NAPI_CALL(env, napi_typeof(env, argv[0], &argument_type));
 	if (argument_type != napi_string) {
+		return NULL;
+	}
+	NAPI_CALL(env, napi_typeof(env, argv[1], &argument_type));
+	if (argument_type != napi_function) {
 		return NULL;
 	}
 
@@ -191,9 +195,17 @@ static napi_value napi_pstcore_build_pstreamer(napi_env env,
 	PSTREAMER_T *pst = pstcore_build_pstreamer(def);
 	printf("pst=%p\n", pst);
 
-	napi_value ret;
-	napi_create_int64(env, (uint64_t) pst, &ret);
-	return ret;
+	{//callback
+		napi_value pst_nv;
+		napi_create_int64(env, (uint64_t) pst, &pst_nv);
+		napi_value argv_cb[] = { pst_nv };
+		napi_value undefined;
+		napi_value ret;
+		NAPI_CALL(env, napi_get_undefined(env, &undefined));
+		napi_status status = napi_call_function(env, undefined, argv[1], 1, argv_cb, &ret);
+	}
+	
+	return NULL;
 }
 
 static napi_value napi_pstcore_start_pstreamer(napi_env env,
@@ -359,12 +371,12 @@ extern "C" {
 			memcpy(_buff, vec->data(), vec->size());
 			delete(vec);
 		}
-		napi_value argv[] = { buff };
+		napi_value argv_cb[] = { buff };
 		napi_value undefined;
 		napi_value ret;
 		NAPI_CALL(env, napi_get_undefined(env, &undefined));
 		NAPI_CALL(env,
-				napi_call_function(env, undefined, js_callback, 1, argv, &ret));
+				napi_call_function(env, undefined, js_callback, 1, argv_cb, &ret));
 	}
 }
 
