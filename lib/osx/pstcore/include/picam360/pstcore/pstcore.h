@@ -26,17 +26,9 @@ void FUNC_DEF pstcore_get_param(PSTREAMER_T *pst, const char *pst_name,
 		const char *param, char *value, int size);
 
 void FUNC_DEF pstcore_add_set_param_done_callback(PSTREAMER_T *pst,
-#if defined(__EMSCRIPTEN__)
-	const char *callback);
-#else
 		PSTHOST_SET_PARAM_DONE_CALLBACK callback, void *arg);
-#endif
 void FUNC_DEF pstcore_remove_set_param_done_callback(PSTREAMER_T *pst,
-#if defined(__EMSCRIPTEN__)
-	const char *callback);
-#else
 		PSTHOST_SET_PARAM_DONE_CALLBACK callback, void *arg);
-#endif
 
 void FUNC_DEF pstcore_start_pstreamer(PSTREAMER_T *pst);
 void FUNC_DEF pstcore_stop_pstreamer(PSTREAMER_T *pst);
