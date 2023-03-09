@@ -1,5 +1,9 @@
 var pstcore = require('./index.js');
 
+pstcore.pstcore_add_log_callback((level, tag, msg) => {
+	console.log(level, tag, msg);
+});
+
 var config_json = "";
 config_json += "{\n";
 config_json += "	\"plugin_paths\" : [\n";
