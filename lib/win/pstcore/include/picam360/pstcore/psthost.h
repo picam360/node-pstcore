@@ -33,9 +33,11 @@ extern "C" {
 
 #define PSTHOST_EVENT_POLL_EVENTS_CALLED 1
 typedef void (*PSTHOST_EVENT_CALLBACK)(void *arg);
-typedef struct _PSTHOST_T PSTHOST_T;
 typedef void (*PSTHOST_SET_PARAM_DONE_CALLBACK)(const char *pst_name,
 		const char *param, const char *value, void *arg);
+typedef void (*PSTHOST_LOG_CALLBACK)(int level, const char *tag, const char *msg, void *arg);
+
+typedef struct _PSTHOST_T PSTHOST_T;
 struct _PSTHOST_T {
 	PSTREAMER_T* (*build_pstreamer)(PSTHOST_T *obj, uint8_t *uuid,
 			const char *_buff);
@@ -60,6 +62,10 @@ struct _PSTHOST_T {
 			PSTHOST_SET_PARAM_DONE_CALLBACK callback, void *arg);
     void (*remove_set_param_done_callback)(PSTHOST_T *obj, PSTREAMER_T *pst,
             PSTHOST_SET_PARAM_DONE_CALLBACK callback, void *arg);
+
+	void (*add_log_callback)(PSTHOST_T *obj, PSTHOST_LOG_CALLBACK callback, void *arg);
+    void (*remove_log_callback)(PSTHOST_T *obj, PSTHOST_LOG_CALLBACK callback, void *arg);
+	void (*log)(PSTHOST_T *obj, int level, const char* tag, const char* msg);
 };
 
 PSTHOST_T* build_pstreamer_host();

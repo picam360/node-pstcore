@@ -8,6 +8,7 @@ extern "C" {
 
 #include <pthread.h>
 #include <stdbool.h>
+#include <stdint.h>
 #include "reference.h"
 
 typedef struct MEMBUFF_T {
