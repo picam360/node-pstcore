@@ -55,6 +55,7 @@ GLFWkeyfun dglfwSetKeyCallback(GLFWwindow* window, GLFWkeyfun callback);
 void dglfwSetQuat(GLFWwindow *_window, float x, float y, float z, float w);
 void dglfwGetCurrentQuat(GLFWwindow *_window, float *out_x, float *out_y, float *out_z, float *out_w);
 void dglfwGetCurrentTex(GLFWwindow *_window, int *out_tex);
+void dglfwViewport(GLFWwindow *_window, bool stereo, int eye_idx, int x, int y, int w, int h, bool from_right, bool from_top);
 //extension end
 
 #ifdef __cplusplus

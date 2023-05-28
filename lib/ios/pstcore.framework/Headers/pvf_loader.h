@@ -22,7 +22,7 @@ typedef void *PVFLDR_T;
 typedef void *PVFLDR_REQ_T;
 typedef void (*PVFLDR_CALLBACK)(unsigned char *data, int size, bool is_frame, int n_frame, void *arg);
 
-void FUNC_DEF pvfldr_new(PVFLDR_T *out_obj, const char *url, const char *head_query, const char *get_query, PVFLDR_CALLBACK callback,
+void FUNC_DEF pvfldr_new(PVFLDR_T *out_obj, const char *url, int64_t zip_entry_pos, const char *head_query, const char *get_query, PVFLDR_CALLBACK callback,
 		void *arg);
 void FUNC_DEF pvfldr_delete(PVFLDR_T _this);
 void FUNC_DEF pvfldr_poll(PVFLDR_T _this);

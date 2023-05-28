@@ -13,8 +13,8 @@ set_target_properties(pstcore PROPERTIES
   IMPORTED_NO_SONAME_RELEASE "TRUE"
   )
 
-list(APPEND _IMPORT_CHECK_TARGETS pstcore )
-list(APPEND _IMPORT_CHECK_FILES_FOR_pstcore "${_IMPORT_PREFIX}/lib/picam360/arm64-v8a/libpstcore.so" )
+list(APPEND _cmake_import_check_targets pstcore )
+list(APPEND _cmake_import_check_files_for_pstcore "${_IMPORT_PREFIX}/lib/picam360/arm64-v8a/libpstcore.so" )
 
 # Commands beyond this point should not need to know the version.
 set(CMAKE_IMPORT_FILE_VERSION)

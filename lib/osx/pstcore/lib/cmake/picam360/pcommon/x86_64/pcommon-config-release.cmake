@@ -12,8 +12,8 @@ set_target_properties(pcommon PROPERTIES
   IMPORTED_LOCATION_RELEASE "${_IMPORT_PREFIX}/lib/picam360/x86_64/libpcommon.a"
   )
 
-list(APPEND _IMPORT_CHECK_TARGETS pcommon )
-list(APPEND _IMPORT_CHECK_FILES_FOR_pcommon "${_IMPORT_PREFIX}/lib/picam360/x86_64/libpcommon.a" )
+list(APPEND _cmake_import_check_targets pcommon )
+list(APPEND _cmake_import_check_files_for_pcommon "${_IMPORT_PREFIX}/lib/picam360/x86_64/libpcommon.a" )
 
 # Commands beyond this point should not need to know the version.
 set(CMAKE_IMPORT_FILE_VERSION)

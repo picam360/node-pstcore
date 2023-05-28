@@ -12,8 +12,8 @@ set_target_properties(pstcore PROPERTIES
   IMPORTED_SONAME_RELEASE "@rpath/libpstcore.dylib"
   )
 
-list(APPEND _IMPORT_CHECK_TARGETS pstcore )
-list(APPEND _IMPORT_CHECK_FILES_FOR_pstcore "${_IMPORT_PREFIX}/lib/picam360/x86_64/libpstcore.dylib" )
+list(APPEND _cmake_import_check_targets pstcore )
+list(APPEND _cmake_import_check_files_for_pstcore "${_IMPORT_PREFIX}/lib/picam360/x86_64/libpstcore.dylib" )
 
 # Commands beyond this point should not need to know the version.
 set(CMAKE_IMPORT_FILE_VERSION)
