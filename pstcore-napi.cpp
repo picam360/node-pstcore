@@ -52,10 +52,12 @@ static void js_on_set_param_callback(napi_env env, napi_value js_callback, void 
 		//printf("something wrong : %d\n", status);
 	}
 
-	free(params[0]);
-	free(params[1]);
-	free(params[2]);
-	free(params);
+	if(params[3]){
+		free(params[0]);
+		free(params[1]);
+		free(params[2]);
+		free(params);
+	}
 }
 }
 
@@ -63,26 +65,29 @@ static void on_set_param_callback(const char *pst_name, const char *param,
 		const char *value, void *arg) {
 	param_done_callback_context *context = (param_done_callback_context*)arg;
 
-	size_t pst_name_len = strlen(pst_name);
-	size_t param_len = strlen(param);
-	size_t value_len = strlen(value);
-	char *pst_name_copy = (char*)malloc(pst_name_len + 1);
-	char *param_copy = (char*)malloc(param_len + 1);
-	char *value_copy = (char*)malloc(value_len + 1);
-	strcpy(pst_name_copy, pst_name);
-	strcpy(param_copy, param);
-	strcpy(value_copy, value);
-
-	void **params = (void**)malloc(sizeof(void*)*3);
-	params[0] = pst_name_copy;
-	params[1] = param_copy;
-	params[2] = value_copy;
-
 	if(std::this_thread::get_id() == NODE_THREAD){
+		void *params[4] = { (void*)pst_name, (void*)param, (void*)value, (void*)0 };
+
 		napi_value callback;
 		NAPI_CALL(env, napi_get_reference_value(context->env, context->callback_ref, &callback));
 		js_on_set_param_callback(context->env, callback, NULL, (void*)params);
 	}else{
+		size_t pst_name_len = strlen(pst_name);
+		size_t param_len = strlen(param);
+		size_t value_len = strlen(value);
+		char *pst_name_copy = (char*)malloc(pst_name_len + 1);
+		char *param_copy = (char*)malloc(param_len + 1);
+		char *value_copy = (char*)malloc(value_len + 1);
+		strcpy(pst_name_copy, pst_name);
+		strcpy(param_copy, param);
+		strcpy(value_copy, value);
+
+		void **params = (void**)malloc(sizeof(void*)*4);
+		params[0] = pst_name_copy;
+		params[1] = param_copy;
+		params[2] = value_copy;
+		params[3] = (void*)1;
+
 		NAPI_CALL(env, napi_acquire_threadsafe_function(context->callback));
 		NAPI_CALL(env,
 				napi_call_threadsafe_function(context->callback, (void*)params,
@@ -455,7 +460,7 @@ static napi_value napi_pstcore_set_param(napi_env env,
 
 		char pst_name[1024] = { };
 		char param[1024] = { };
-		char *value = NULL;
+		char value[1024] = { };
 		size_t copied;
 
 		NAPI_CALL(env,
@@ -464,20 +469,24 @@ static napi_value napi_pstcore_set_param(napi_env env,
 		NAPI_CALL(env,
 				napi_get_value_string_utf8(env, argv[2], param, sizeof(param),
 						&copied));
-
-		size_t value_len = 0;
 		NAPI_CALL(env,
-		napi_get_value_string_utf8(env, argv[3], NULL, 0,
-		&value_len));
-		//printf("napi_pstcore_set_param : %d\n", value_len);
-		value = (char*)malloc(value_len + 1);
-		NAPI_CALL(env,
-		napi_get_value_string_utf8(env, argv[3], value, value_len + 1,
-		&copied));
+				napi_get_value_string_utf8(env, argv[3], value, sizeof(value),
+						&copied));
 
-		pstcore_set_param(pst, pst_name, param, value);
-
-		free(value);
+		if(copied + 1 >= sizeof(value)){
+			char *value2 = NULL;
+			size_t value_len = 0;
+			NAPI_CALL(env,
+			napi_get_value_string_utf8(env, argv[3], NULL, 0, &value_len));
+			//printf("napi_pstcore_set_param : %d\n", value_len);
+			value2 = (char*)malloc(value_len + 1);
+			NAPI_CALL(env,
+			napi_get_value_string_utf8(env, argv[3], value2, value_len + 1, &copied));
+			pstcore_set_param(pst, pst_name, param, value2);
+			free(value2);
+		}else{
+			pstcore_set_param(pst, pst_name, param, value);
+		}
 
 		return NULL;
 	}
