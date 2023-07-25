@@ -31,23 +31,31 @@ typedef struct param_done_callback_context{
 
 extern "C" {
 static void js_on_set_param_callback(napi_env env, napi_value js_callback, void *_ctx,
-		void *_msg) {
-	char *msg = (char*) _msg;
-	//printf("on_set_param_callback2 : %p=%s\n", _msg, msg);
+		void *args) {
+	void **params = (void**)args;
 
-	napi_value nv_msg;
-	NAPI_CALL(env, napi_create_string_utf8(env, msg, -1, &nv_msg));
+	//printf("js_on_set_param_callback : %s : %s : %s\n", (char*)params[0], (char*)params[1], (char*)params[2]);
 
-	napi_value argv_cb[] = { nv_msg };
+	napi_value nv_pst_name;
+	NAPI_CALL(env, napi_create_string_utf8(env, (char*)params[0], -1, &nv_pst_name));
+	napi_value nv_param;
+	NAPI_CALL(env, napi_create_string_utf8(env, (char*)params[1], -1, &nv_param));
+	napi_value nv_value;
+	NAPI_CALL(env, napi_create_string_utf8(env, (char*)params[2], -1, &nv_value));
+
+	napi_value argv_cb[] = { nv_pst_name, nv_param, nv_value };
 	napi_value undefined;
 	napi_value ret;
 	NAPI_CALL(env, napi_get_undefined(env, &undefined));
-	napi_status status = napi_call_function(env, undefined, js_callback, 1, argv_cb, &ret);
+	napi_status status = napi_call_function(env, undefined, js_callback, 3, argv_cb, &ret);
 	if (status != napi_ok) {
-		//printf("something wrong %d : ", status);
+		//printf("something wrong : %d\n", status);
 	}
 
-	free(msg);
+	free(params[0]);
+	free(params[1]);
+	free(params[2]);
+	free(params);
 }
 }
 
@@ -55,32 +63,29 @@ static void on_set_param_callback(const char *pst_name, const char *param,
 		const char *value, void *arg) {
 	param_done_callback_context *context = (param_done_callback_context*)arg;
 
-	string _value = value;
-	string src = "\"";
-	string dst = "\\\"";
-	string::size_type pos = 0;
-	while ((pos = _value.find(src, pos)) != string::npos) {
-		_value.replace(pos, src.length(), dst);
-		pos += dst.length();
-	}
+	size_t pst_name_len = strlen(pst_name);
+	size_t param_len = strlen(param);
+	size_t value_len = strlen(value);
+	char *pst_name_copy = (char*)malloc(pst_name_len + 1);
+	char *param_copy = (char*)malloc(param_len + 1);
+	char *value_copy = (char*)malloc(value_len + 1);
+	strcpy(pst_name_copy, pst_name);
+	strcpy(param_copy, param);
+	strcpy(value_copy, value);
 
-	size_t len = strlen(pst_name) + strlen(param) + _value.size() + 16;
-	char *msg = (char*) malloc(len);
-#ifdef WIN32
-	sprintf_s(msg, len, "[\"%s\",\"%s\",\"%s\"]", pst_name, param, _value.c_str());
-#else
-	sprintf(msg, "[\"%s\",\"%s\",\"%s\"]", pst_name, param, _value.c_str());
-#endif
-	//printf("on_set_param_callback1 : %p=%s\n", msg, msg);
+	void **params = (void**)malloc(sizeof(void*)*3);
+	params[0] = pst_name_copy;
+	params[1] = param_copy;
+	params[2] = value_copy;
 
 	if(std::this_thread::get_id() == NODE_THREAD){
 		napi_value callback;
 		NAPI_CALL(env, napi_get_reference_value(context->env, context->callback_ref, &callback));
-		js_on_set_param_callback(context->env, callback, NULL, (void*)msg);
+		js_on_set_param_callback(context->env, callback, NULL, (void*)params);
 	}else{
 		NAPI_CALL(env, napi_acquire_threadsafe_function(context->callback));
 		NAPI_CALL(env,
-				napi_call_threadsafe_function(context->callback, (void*)msg,
+				napi_call_threadsafe_function(context->callback, (void*)params,
 						napi_tsfn_blocking));
 	}
 
@@ -450,7 +455,7 @@ static napi_value napi_pstcore_set_param(napi_env env,
 
 		char pst_name[1024] = { };
 		char param[1024] = { };
-		char value[1024] = { };
+		char *value = NULL;
 		size_t copied;
 
 		NAPI_CALL(env,
@@ -459,11 +464,20 @@ static napi_value napi_pstcore_set_param(napi_env env,
 		NAPI_CALL(env,
 				napi_get_value_string_utf8(env, argv[2], param, sizeof(param),
 						&copied));
+
+		size_t value_len = 0;
 		NAPI_CALL(env,
-				napi_get_value_string_utf8(env, argv[3], value, sizeof(value),
-						&copied));
+		napi_get_value_string_utf8(env, argv[3], NULL, 0,
+		&value_len));
+		//printf("napi_pstcore_set_param : %d\n", value_len);
+		value = (char*)malloc(value_len + 1);
+		NAPI_CALL(env,
+		napi_get_value_string_utf8(env, argv[3], value, value_len + 1,
+		&copied));
 
 		pstcore_set_param(pst, pst_name, param, value);
+
+		free(value);
 
 		return NULL;
 	}

@@ -25,12 +25,12 @@ var url = "https://vpm.picam360.com/4khdr_1024p_stereo_2mbps.pvf";
 var def = "pvf_loader ! libde265_decoder name=decoder ! pgl_renderer name=renderer format=p2s w=640 h=480 fps=30";
 pstcore.pstcore_build_pstreamer(def, (pst) => {
 	var set_param_done_check = false;
-	pstcore.pstcore_add_set_param_done_callback(pst, (msg) => {
+	pstcore.pstcore_add_set_param_done_callback(pst, (pst_name, param, value) => {
 		if(set_param_done_check){
 			return;
 		}
 		set_param_done_check = true;
-		console.log("set_param_done ok", msg);
+		console.log("set_param_done ok", pst_name, param, value);
 	});
 	pstcore.pstcore_set_param(pst, "pvf_loader", "url", url);
 	//pstcore.pstcore_set_param(pst, "renderer", "win_titlebar", "0");
