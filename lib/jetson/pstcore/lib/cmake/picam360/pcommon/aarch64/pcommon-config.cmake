@@ -57,7 +57,7 @@ add_library(pcommon STATIC IMPORTED)
 
 set_target_properties(pcommon PROPERTIES
   INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include"
-  INTERFACE_LINK_LIBRARIES "pthread;dl;png16;m;z;m;z;curl"
+  INTERFACE_LINK_LIBRARIES "pthread;dl;jpeg;png16;m;z;m;z;curl"
 )
 
 # Load information for each installed configuration.
