@@ -464,28 +464,45 @@ static napi_value napi_pstcore_set_param(napi_env env,
 		size_t copied;
 
 		NAPI_CALL(env,
-				napi_get_value_string_utf8(env, argv[1], pst_name,
-						sizeof(pst_name), &copied));
+				napi_get_value_string_utf8(env, argv[1], pst_name, sizeof(pst_name), &copied));
 		NAPI_CALL(env,
-				napi_get_value_string_utf8(env, argv[2], param, sizeof(param),
-						&copied));
+				napi_get_value_string_utf8(env, argv[2], param, sizeof(param), &copied));
+						
+		napi_valuetype value_type;
 		NAPI_CALL(env,
-				napi_get_value_string_utf8(env, argv[3], value, sizeof(value),
-						&copied));
+				napi_typeof(env, argv[3], &value_type));
+		switch(value_type){
+		case napi_string:
+			if(1){
+				NAPI_CALL(env,
+						napi_get_value_string_utf8(env, argv[3], value, sizeof(value), &copied));
 
-		if(copied + 1 >= sizeof(value)){
-			char *value2 = NULL;
-			size_t value_len = 0;
-			NAPI_CALL(env,
-			napi_get_value_string_utf8(env, argv[3], NULL, 0, &value_len));
-			//printf("napi_pstcore_set_param : %d\n", value_len);
-			value2 = (char*)malloc(value_len + 1);
-			NAPI_CALL(env,
-			napi_get_value_string_utf8(env, argv[3], value2, value_len + 1, &copied));
-			pstcore_set_param(pst, pst_name, param, value2);
-			free(value2);
-		}else{
-			pstcore_set_param(pst, pst_name, param, value);
+				if(copied + 1 >= sizeof(value)){
+					char *value2 = NULL;
+					size_t value_len = 0;
+					NAPI_CALL(env,
+					napi_get_value_string_utf8(env, argv[3], NULL, 0, &value_len));
+					//printf("napi_pstcore_set_param : %d\n", value_len);
+					value2 = (char*)malloc(value_len + 1);
+					NAPI_CALL(env,
+					napi_get_value_string_utf8(env, argv[3], value2, value_len + 1, &copied));
+					pstcore_set_param(pst, pst_name, param, value2);
+					free(value2);
+				}else{
+					pstcore_set_param(pst, pst_name, param, value);
+				}
+			}
+			break;
+		case napi_number:
+			if(1){
+				double value_d = 0;
+				NAPI_CALL(env,
+						napi_get_value_double(env, argv[3], &value_d));
+				sprintf(value, "%lf", value_d);
+				//printf("napi_pstcore_set_param : %s : %s : %s\n", pst_name, param, value);
+				pstcore_set_param(pst, pst_name, param, value);
+			}
+			break;
 		}
 
 		return NULL;
