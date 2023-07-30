@@ -25,7 +25,7 @@ void FUNC_DEF psfldr_new(PSFLDR_T *out_obj, const char *url, const char *head_qu
 		void *arg);
 void FUNC_DEF psfldr_delete(PSFLDR_T _this);
 void FUNC_DEF psfldr_poll(PSFLDR_T _this);
-void FUNC_DEF psfldr_get_pos(PSFLDR_T _this, const char *path, char *out_url, uint64_t *out_offset, int *out_length);
+bool FUNC_DEF psfldr_get_pos(PSFLDR_T _this, const char *path, char *out_url, uint64_t *out_offset, uint64_t *out_length);
 
 #ifdef __cplusplus
 
