@@ -4,3 +4,5 @@
 !*.lib
 !*.so
 !*.so.*
+
+lib/jetson/pstcore/lib/picam360/aarch64/libpstcore.so
