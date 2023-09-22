@@ -1,6 +1,17 @@
 
 set(TARGET_ARCH "x86_64")
 
+set(PSTCOREDIR "win")
+
+execute_process(
+    COMMAND 7z x ${PSTCOREDIR}.7z
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib
+    RESULT_VARIABLE result
+)
+if(result)
+    message(FATAL_ERROR "Error extracting lib: ${result}")
+endif()
+
 add_custom_command(
         TARGET ${PROJECT_NAME} PRE_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy

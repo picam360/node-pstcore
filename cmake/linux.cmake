@@ -8,7 +8,20 @@ if (BCM_HOST)
 	set(PSTCOREDIR "rpi")
 elseif (TEGRA)
 	set(PSTCOREDIR "jetson")
-        
+else ()
+	set(PSTCOREDIR "linux")
+endif ()
+
+execute_process(
+    COMMAND 7z x ${PSTCOREDIR}.7z
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib
+    RESULT_VARIABLE result
+)
+if(result)
+    message(FATAL_ERROR "Error extracting lib: ${result}")
+endif()
+
+if (TEGRA)
         execute_process(
                 COMMAND dpkg-query --show nvidia-l4t-core
                 OUTPUT_VARIABLE L4T_PACKAGE_INFO
@@ -34,9 +47,6 @@ elseif (TEGRA)
                 )
 
         endif()
-
-else ()
-	set(PSTCOREDIR "linux")
 endif ()
 
 find_package(PkgConfig REQUIRED)

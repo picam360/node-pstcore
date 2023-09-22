@@ -54,3 +54,6 @@ node_modules
 build
 node_module
 !*.dll
+
+lib/*
+!lib/*.7z
