@@ -8,6 +8,33 @@ if (BCM_HOST)
 	set(PSTCOREDIR "rpi")
 elseif (TEGRA)
 	set(PSTCOREDIR "jetson")
+        
+        execute_process(
+                COMMAND dpkg-query --show nvidia-l4t-core
+                OUTPUT_VARIABLE L4T_PACKAGE_INFO
+                OUTPUT_STRIP_TRAILING_WHITESPACE
+        )
+        string(REGEX MATCH "nvidia-l4t-core[ \t]+([0-9]+\\.[0-9]+\\.[0-9]+)" _ ${L4T_PACKAGE_INFO})
+        set(L4T_VERSION ${CMAKE_MATCH_1})
+        message(STATUS "L4T Version: ${L4T_VERSION}")
+
+        if(L4T_VERSION VERSION_GREATER_EQUAL "32.5" AND L4T_VERSION VERSION_LESS_EQUAL "32.7.4")
+                message(STATUS "JP46")
+                execute_process(
+                        COMMAND ${CMAKE_COMMAND} -E copy
+                                ${CMAKE_CURRENT_SOURCE_DIR}/lib/${PSTCOREDIR}/pstcore/lib/picam360/${TARGET_ARCH}/libpstcore.so.jp46
+                                ${CMAKE_CURRENT_SOURCE_DIR}/lib/${PSTCOREDIR}/pstcore/lib/picam360/${TARGET_ARCH}/libpstcore.so
+                )
+        else()
+                message(STATUS "JP51")
+                execute_process(
+                        COMMAND ${CMAKE_COMMAND} -E copy
+                                ${CMAKE_CURRENT_SOURCE_DIR}/lib/${PSTCOREDIR}/pstcore/lib/picam360/${TARGET_ARCH}/libpstcore.so.jp51
+                                ${CMAKE_CURRENT_SOURCE_DIR}/lib/${PSTCOREDIR}/pstcore/lib/picam360/${TARGET_ARCH}/libpstcore.so
+                )
+
+        endif()
+
 else ()
 	set(PSTCOREDIR "linux")
 endif ()
