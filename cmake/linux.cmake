@@ -13,7 +13,7 @@ else ()
 endif ()
 
 execute_process(
-    COMMAND 7z x ${PSTCOREDIR}.7z
+    COMMAND 7z x -aoa ${PSTCOREDIR}.7z
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib
     RESULT_VARIABLE result
 )
@@ -22,14 +22,26 @@ if(result)
 endif()
 
 if (TEGRA)
-        execute_process(
-                COMMAND dpkg-query --show nvidia-l4t-core
-                OUTPUT_VARIABLE L4T_PACKAGE_INFO
-                OUTPUT_STRIP_TRAILING_WHITESPACE
-        )
-        string(REGEX MATCH "nvidia-l4t-core[ \t]+([0-9]+\\.[0-9]+\\.[0-9]+)" _ ${L4T_PACKAGE_INFO})
-        set(L4T_VERSION ${CMAKE_MATCH_1})
-        message(STATUS "L4T Version: ${L4T_VERSION}")
+        set(L4T_VERSION $ENV{L4T_VERSION})
+        if(DEFINED L4T_VERSION)
+                message(STATUS "L4T Version from ENV: ${L4T_VERSION}")
+        else()
+                execute_process(
+                        COMMAND dpkg-query --show nvidia-l4t-core
+                        RESULT_VARIABLE command_result
+                        OUTPUT_VARIABLE L4T_PACKAGE_INFO
+                        ERROR_QUIET
+                        OUTPUT_STRIP_TRAILING_WHITESPACE
+                )
+                if(NOT command_result EQUAL 0) # command failed
+                        set(L4T_VERSION "0.0")
+                else()
+                        string(REGEX MATCH "nvidia-l4t-core[ \t]+([0-9]+\\.[0-9]+\\.[0-9]+)" _ ${L4T_PACKAGE_INFO})
+                        set(L4T_VERSION ${CMAKE_MATCH_1})
+                endif()
+                message(STATUS "L4T Version: ${L4T_VERSION}")
+        endif()
+
 
         if(L4T_VERSION VERSION_GREATER_EQUAL "32.5" AND L4T_VERSION VERSION_LESS_EQUAL "32.7.4")
                 message(STATUS "JP46")

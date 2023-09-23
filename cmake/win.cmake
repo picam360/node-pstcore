@@ -4,7 +4,7 @@ set(TARGET_ARCH "x86_64")
 set(PSTCOREDIR "win")
 
 execute_process(
-    COMMAND 7z x ${PSTCOREDIR}.7z
+    COMMAND 7z x -aoa ${PSTCOREDIR}.7z
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib
     RESULT_VARIABLE result
 )

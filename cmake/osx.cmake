@@ -6,7 +6,7 @@ find_package(PkgConfig REQUIRED)
 set(PSTCOREDIR "osx")
 
 execute_process(
-    COMMAND 7z x ${PSTCOREDIR}.7z
+    COMMAND 7z x -aoa ${PSTCOREDIR}.7z
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/lib
     RESULT_VARIABLE result
 )
