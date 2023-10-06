@@ -180,9 +180,9 @@ static napi_value napi_pstcore_add_set_param_done_callback(napi_env env,
 static napi_value napi_pstcore_build_pstreamer(napi_env env,
 		napi_callback_info info) {
 	size_t argc = 3;
-	napi_value argv[3];
+	napi_value argv[3] = {};
 	NAPI_CALL(env, napi_get_cb_info(env, info, &argc, argv, NULL, NULL));
-	if (argc != 2) {
+	if (argc < 2) {
 		return NULL;
 	}
 
@@ -209,11 +209,11 @@ static napi_value napi_pstcore_build_pstreamer(napi_env env,
 	{//callback
 		napi_value pst_nv;
 		napi_create_int64(env, (uint64_t) pst, &pst_nv);
-		napi_value argv_cb[] = { pst_nv };
+		napi_value argv_cb[] = { pst_nv, argv[2] };
 		napi_value undefined;
 		napi_value ret;
 		NAPI_CALL(env, napi_get_undefined(env, &undefined));
-		napi_status status = napi_call_function(env, undefined, argv[1], 1, argv_cb, &ret);
+		napi_status status = napi_call_function(env, undefined, argv[1], 2, argv_cb, &ret);
 	}
 	
 	return NULL;
