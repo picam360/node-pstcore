@@ -111,13 +111,39 @@ static napi_value napi_pstcore_init(napi_env env, napi_callback_info info) {
 	NAPI_CALL(env, napi_typeof(env, argv[0], &argument_type));
 
 	if (argument_type == napi_string) {
-		char buff[1024];
+		char buff[1024] = {};
 		size_t copied;
 
 		NAPI_CALL(env,
 				napi_get_value_string_utf8(env, argv[0], buff, sizeof(buff),
 						&copied));
 		pstcore_init(buff);
+	}
+
+	return NULL;
+}
+
+static napi_value napi_pstcore_load_plugin(napi_env env, napi_callback_info info) {
+	size_t argc = 1;
+	napi_value argv[1];
+	NAPI_CALL(env, napi_get_cb_info(env, info, &argc, argv, NULL, NULL));
+	if (argc != 1) {
+		return NULL;
+	}
+
+	NODE_THREAD = std::this_thread::get_id();
+
+	napi_valuetype argument_type;
+	NAPI_CALL(env, napi_typeof(env, argv[0], &argument_type));
+
+	if (argument_type == napi_string) {
+		char buff[1024] = {};
+		size_t copied;
+
+		NAPI_CALL(env,
+				napi_get_value_string_utf8(env, argv[0], buff, sizeof(buff),
+						&copied));
+		pstcore_load_plugin(buff);
 	}
 
 	return NULL;
@@ -671,6 +697,7 @@ static napi_value Init(napi_env env, napi_value exports) {
 	napi_status status;
 	napi_property_descriptor desc[] = {
 		DECLARE_NAPI_METHOD("pstcore_init", napi_pstcore_init),
+		DECLARE_NAPI_METHOD("pstcore_load_plugin", napi_pstcore_load_plugin),
 		DECLARE_NAPI_METHOD("pstcore_build_pstreamer", napi_pstcore_build_pstreamer),
 		DECLARE_NAPI_METHOD("pstcore_start_pstreamer", napi_pstcore_start_pstreamer),
 		DECLARE_NAPI_METHOD("pstcore_stop_pstreamer", napi_pstcore_stop_pstreamer),
