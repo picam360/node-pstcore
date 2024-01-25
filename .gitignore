@@ -57,3 +57,4 @@ node_module
 
 lib/*
 !lib/*.7z
+!lib/*.sh
