@@ -111,13 +111,16 @@ static napi_value napi_pstcore_init(napi_env env, napi_callback_info info) {
 	NAPI_CALL(env, napi_typeof(env, argv[0], &argument_type));
 
 	if (argument_type == napi_string) {
-		char buff[1024] = {};
-		size_t copied;
 
-		NAPI_CALL(env,
-				napi_get_value_string_utf8(env, argv[0], buff, sizeof(buff),
-						&copied));
-		pstcore_init(buff);
+		char *value = NULL;
+		size_t value_len = 0;
+		size_t copied;
+		NAPI_CALL(env, napi_get_value_string_utf8(env, argv[0], NULL, 0, &value_len));
+		value = (char*)malloc(value_len + 1);
+		NAPI_CALL(env, napi_get_value_string_utf8(env, argv[0], value, value_len + 1, &copied));
+		pstcore_init(value);
+		free(value);
+
 	}
 
 	return NULL;
