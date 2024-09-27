@@ -44,18 +44,25 @@ if (TEGRA)
         endif()
 
 
-        if(L4T_VERSION VERSION_GREATER_EQUAL "32.5" AND L4T_VERSION VERSION_LESS_EQUAL "32.7.4")
-                message(STATUS "JP46")
+        if(L4T_VERSION VERSION_LESS "35.2")
+                message(STATUS "JetPack 4.6")
                 execute_process(
                         COMMAND ${CMAKE_COMMAND} -E copy
                                 ${CMAKE_CURRENT_SOURCE_DIR}/lib/${PSTCOREDIR}/pstcore/lib/picam360/${TARGET_ARCH}/libpstcore.so.jp46
                                 ${CMAKE_CURRENT_SOURCE_DIR}/lib/${PSTCOREDIR}/pstcore/lib/picam360/${TARGET_ARCH}/libpstcore.so
                 )
-        else()
-                message(STATUS "JP51")
+        elseif(L4T_VERSION VERSION_GREATER_EQUAL "35.2" AND L4T_VERSION VERSION_LESS "35.4")
+                message(STATUS "JetPack 5.1")
                 execute_process(
                         COMMAND ${CMAKE_COMMAND} -E copy
                                 ${CMAKE_CURRENT_SOURCE_DIR}/lib/${PSTCOREDIR}/pstcore/lib/picam360/${TARGET_ARCH}/libpstcore.so.jp51
+                                ${CMAKE_CURRENT_SOURCE_DIR}/lib/${PSTCOREDIR}/pstcore/lib/picam360/${TARGET_ARCH}/libpstcore.so
+                )
+        else()
+                message(STATUS "JetPack 5.1.4")
+                execute_process(
+                        COMMAND ${CMAKE_COMMAND} -E copy
+                                ${CMAKE_CURRENT_SOURCE_DIR}/lib/${PSTCOREDIR}/pstcore/lib/picam360/${TARGET_ARCH}/libpstcore.so.jp51_4
                                 ${CMAKE_CURRENT_SOURCE_DIR}/lib/${PSTCOREDIR}/pstcore/lib/picam360/${TARGET_ARCH}/libpstcore.so
                 )
 
