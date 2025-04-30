@@ -1,5 +1,9 @@
 
-set(TARGET_ARCH "x86_64")
+if(CMAKE_SYSTEM_PROCESSOR MATCHES "arm64|aarch64")
+    set(TARGET_ARCH "arm64")
+else()
+    set(TARGET_ARCH "x86_64")
+endif()
 
 find_package(PkgConfig REQUIRED)
 
