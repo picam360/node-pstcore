@@ -6,7 +6,9 @@
 #include <string>
 #include <thread>
 
-#include <node_api.h>
+extern "C" {
+	#include <node_api.h>
+}
 #include "pstcore.h"
 
 using namespace std;
